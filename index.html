@@ -37,7 +37,7 @@
 
     <!-- Tombol Gemini API & Export -->
     <div class="flex items-center gap-2 md:gap-3">
-      <button type="button" id="open-api-modal-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors cursor-pointer">
+      <button type="button" id="open-api-modal-btn" onclick="openApiModal()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 active:bg-slate-600 text-xs font-medium text-slate-200 transition-colors cursor-pointer select-none">
         <span class="w-2 h-2 rounded-full bg-amber-400" id="api-status-dot"></span>
         <span id="api-status-label">Set Gemini API</span>
       </button>
@@ -70,9 +70,9 @@
       <div>
         <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">2. Ukuran Kanvas</label>
         <div class="grid grid-cols-3 gap-2">
-          <button type="button" data-ratio="1:1" class="ratio-btn px-2.5 py-2 rounded-lg border border-indigo-600 bg-indigo-600/10 text-indigo-300 text-xs font-medium text-center">1:1 Feed</button>
-          <button type="button" data-ratio="4:5" class="ratio-btn px-2.5 py-2 rounded-lg border border-slate-800 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-medium text-center">4:5 Portrait</button>
-          <button type="button" data-ratio="9:16" class="ratio-btn px-2.5 py-2 rounded-lg border border-slate-800 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-medium text-center">9:16 Story</button>
+          <button type="button" data-ratio="1:1" class="ratio-btn px-2.5 py-2 rounded-lg border border-indigo-600 bg-indigo-600/10 text-indigo-300 text-xs font-medium text-center cursor-pointer">1:1 Feed</button>
+          <button type="button" data-ratio="4:5" class="ratio-btn px-2.5 py-2 rounded-lg border border-slate-800 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-medium text-center cursor-pointer">4:5 Portrait</button>
+          <button type="button" data-ratio="9:16" class="ratio-btn px-2.5 py-2 rounded-lg border border-slate-800 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-medium text-center cursor-pointer">9:16 Story</button>
         </div>
       </div>
 
@@ -83,12 +83,12 @@
         <div>
           <span class="text-xs text-slate-400 block mb-1.5">Warna Backdrop:</span>
           <div class="flex items-center gap-2 flex-wrap">
-            <button type="button" data-color="#ffffff" class="bg-btn w-7 h-7 rounded-full bg-white border border-slate-600 focus:ring-2 ring-indigo-500"></button>
-            <button type="button" data-color="#f8fafc" class="bg-btn w-7 h-7 rounded-full bg-slate-100 border border-slate-600 focus:ring-2 ring-indigo-500"></button>
-            <button type="button" data-color="#f1f5f9" class="bg-btn w-7 h-7 rounded-full bg-slate-200 border border-slate-600 focus:ring-2 ring-indigo-500"></button>
-            <button type="button" data-color="#e2e8f0" class="bg-btn w-7 h-7 rounded-full bg-slate-300 border border-slate-600 focus:ring-2 ring-indigo-500"></button>
-            <button type="button" data-color="#0f172a" class="bg-btn w-7 h-7 rounded-full bg-slate-900 border border-slate-600 focus:ring-2 ring-indigo-500"></button>
-            <button type="button" data-color="#451a03" class="bg-btn w-7 h-7 rounded-full bg-amber-950 border border-slate-600 focus:ring-2 ring-indigo-500"></button>
+            <button type="button" data-color="#ffffff" class="bg-btn w-7 h-7 rounded-full bg-white border border-slate-600 focus:ring-2 ring-indigo-500 cursor-pointer"></button>
+            <button type="button" data-color="#f8fafc" class="bg-btn w-7 h-7 rounded-full bg-slate-100 border border-slate-600 focus:ring-2 ring-indigo-500 cursor-pointer"></button>
+            <button type="button" data-color="#f1f5f9" class="bg-btn w-7 h-7 rounded-full bg-slate-200 border border-slate-600 focus:ring-2 ring-indigo-500 cursor-pointer"></button>
+            <button type="button" data-color="#e2e8f0" class="bg-btn w-7 h-7 rounded-full bg-slate-300 border border-slate-600 focus:ring-2 ring-indigo-500 cursor-pointer"></button>
+            <button type="button" data-color="#0f172a" class="bg-btn w-7 h-7 rounded-full bg-slate-900 border border-slate-600 focus:ring-2 ring-indigo-500 cursor-pointer"></button>
+            <button type="button" data-color="#451a03" class="bg-btn w-7 h-7 rounded-full bg-amber-950 border border-slate-600 focus:ring-2 ring-indigo-500 cursor-pointer"></button>
             <input type="color" id="custom-bg-color" value="#ffffff" class="w-7 h-7 rounded cursor-pointer bg-transparent border-0">
           </div>
         </div>
@@ -96,17 +96,17 @@
         <div class="space-y-2 pt-2">
           <div class="flex items-center justify-between text-xs text-slate-400">
             <span>Kecerahan (Lighting)</span>
-            <span id="val-bright">100%</span>
+            <span id="val-bright">105%</span>
           </div>
-          <input type="range" id="slider-bright" min="50" max="150" value="105" class="w-full accent-indigo-500">
+          <input type="range" id="slider-bright" min="50" max="150" value="105" class="w-full accent-indigo-500 cursor-pointer">
         </div>
 
         <div class="space-y-2">
           <div class="flex items-center justify-between text-xs text-slate-400">
             <span>Kontras Produk</span>
-            <span id="val-contrast">100%</span>
+            <span id="val-contrast">110%</span>
           </div>
-          <input type="range" id="slider-contrast" min="50" max="150" value="110" class="w-full accent-indigo-500">
+          <input type="range" id="slider-contrast" min="50" max="150" value="110" class="w-full accent-indigo-500 cursor-pointer">
         </div>
 
         <div class="space-y-2">
@@ -114,7 +114,7 @@
             <span>Ketajaman Bayangan (Shadow 3D)</span>
             <span id="val-shadow">40%</span>
           </div>
-          <input type="range" id="slider-shadow" min="0" max="100" value="40" class="w-full accent-indigo-500">
+          <input type="range" id="slider-shadow" min="0" max="100" value="40" class="w-full accent-indigo-500 cursor-pointer">
         </div>
       </div>
 
@@ -129,7 +129,7 @@
           <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
           Buat Caption Promosi Otomatis
         </button>
-        <div id="ai-caption-box" class="hidden relative bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 max-h-40 overflow-y-auto leading-relaxed">
+        <div id="ai-caption-box" style="display: none;" class="relative bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 max-h-40 overflow-y-auto leading-relaxed">
           <button type="button" id="copy-caption-btn" class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300 cursor-pointer">Salin</button>
           <p id="caption-content" class="pr-8 whitespace-pre-wrap"></p>
         </div>
@@ -147,7 +147,7 @@
   </main>
 
   <!-- Modal Box: Gemini API Key & Panduan -->
-  <div id="gemini-api-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+  <div id="gemini-api-modal" style="display: none;" class="fixed inset-0 z-50 items-center justify-center bg-black/80 backdrop-blur-sm p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
       
       <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
@@ -157,7 +157,7 @@
           </span>
           <h3 class="text-sm md:text-base font-semibold text-white">Pengaturan Gemini API Key</h3>
         </div>
-        <button type="button" id="close-api-modal-btn" class="text-slate-400 hover:text-white text-xl leading-none cursor-pointer">&times;</button>
+        <button type="button" onclick="closeApiModal()" class="text-slate-400 hover:text-white text-xl leading-none cursor-pointer">&times;</button>
       </div>
 
       <div class="p-6 space-y-4">
@@ -195,7 +195,7 @@
       <div class="px-6 py-3.5 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
         <button type="button" id="clear-api-key-btn" class="text-xs text-rose-400 hover:underline cursor-pointer">Hapus Kunci</button>
         <div class="flex gap-2">
-          <button type="button" id="cancel-api-modal-btn" class="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors cursor-pointer">Batal</button>
+          <button type="button" onclick="closeApiModal()" class="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors cursor-pointer">Batal</button>
           <button type="button" id="save-api-key-btn" class="px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors cursor-pointer">Simpan Kunci</button>
         </div>
       </div>
@@ -204,9 +204,24 @@
   </div>
 
   <script>
+    const STORAGE_KEY = 'gemini_api_key_umkm';
+
+    // Fungsi Global untuk Buka & Tutup Modal
+    function openApiModal() {
+      const modal = document.getElementById('gemini-api-modal');
+      if (modal) {
+        modal.style.display = 'flex';
+      }
+    }
+
+    function closeApiModal() {
+      const modal = document.getElementById('gemini-api-modal');
+      if (modal) {
+        modal.style.display = 'none';
+      }
+    }
+
     document.addEventListener('DOMContentLoaded', () => {
-      const STORAGE_KEY = 'gemini_api_key_umkm';
-      
       // Canvas & Studio Variables
       const canvas = document.getElementById('product-canvas');
       const ctx = canvas.getContext('2d');
@@ -233,10 +248,6 @@
       const bgBtns = document.querySelectorAll('.bg-btn');
 
       // API Modal Elements
-      const apiModal = document.getElementById('gemini-api-modal');
-      const openApiBtn = document.getElementById('open-api-modal-btn');
-      const closeApiBtn = document.getElementById('close-api-modal-btn');
-      const cancelApiBtn = document.getElementById('cancel-api-modal-btn');
       const saveApiBtn = document.getElementById('save-api-key-btn');
       const clearApiBtn = document.getElementById('clear-api-key-btn');
       const apiInput = document.getElementById('gemini-api-input');
@@ -265,22 +276,6 @@
         }
       }
 
-      // Event Listener Modal API
-      if (openApiBtn) {
-        openApiBtn.addEventListener('click', (e) => {
-          e.preventDefault();
-          apiModal.classList.remove('hidden');
-        });
-      }
-
-      if (closeApiBtn) {
-        closeApiBtn.addEventListener('click', () => apiModal.classList.add('hidden'));
-      }
-
-      if (cancelApiBtn) {
-        cancelApiBtn.addEventListener('click', () => apiModal.classList.add('hidden'));
-      }
-
       if (toggleEye) {
         toggleEye.addEventListener('click', () => {
           const isPwd = apiInput.type === 'password';
@@ -290,4 +285,242 @@
       }
 
       if (saveApiBtn) {
-        saveApiBtn.addEventListener('click
+        saveApiBtn.addEventListener('click', () => {
+          const val = apiInput.value.trim();
+          if (!val) {
+            alert("Harap masukkan API Key Gemini yang valid.");
+            return;
+          }
+          localStorage.setItem(STORAGE_KEY, val);
+          updateKeyStatus();
+          closeApiModal();
+        });
+      }
+
+      if (clearApiBtn) {
+        clearApiBtn.addEventListener('click', () => {
+          localStorage.removeItem(STORAGE_KEY);
+          updateKeyStatus();
+          closeApiModal();
+        });
+      }
+
+      // Inisialisasi Kanvas
+      function initCanvas() {
+        canvas.width = canvasWidth;
+        canvas.height = canvasHeight;
+        renderCanvas();
+      }
+
+      function renderCanvas() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Backdrop Solid
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Spotlight
+        const grad = ctx.createRadialGradient(
+          canvas.width / 2, canvas.height * 0.45, canvas.width * 0.1,
+          canvas.width / 2, canvas.height * 0.5, canvas.width * 0.65
+        );
+        grad.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
+        grad.addColorStop(1, 'rgba(0, 0, 0, 0.12)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        if (loadedImage) {
+          const padding = canvas.width * 0.12;
+          const maxW = canvas.width - (padding * 2);
+          const maxH = canvas.height - (padding * 2);
+          
+          let imgW = loadedImage.width;
+          let imgH = loadedImage.height;
+          const ratio = Math.min(maxW / imgW, maxH / imgH);
+          imgW *= ratio;
+          imgH *= ratio;
+
+          const posX = (canvas.width - imgW) / 2;
+          const posY = (canvas.height - imgH) / 2;
+
+          // Bayangan 3D
+          if (shadowVal > 0) {
+            ctx.save();
+            const shadowY = posY + imgH - 8;
+            const shadowRx = (imgW * 0.42);
+            const shadowRy = 14 + (shadowVal * 0.15);
+            
+            const sGrad = ctx.createRadialGradient(
+              canvas.width / 2, shadowY, 5,
+              canvas.width / 2, shadowY, shadowRx
+            );
+            sGrad.addColorStop(0, `rgba(0, 0, 0, ${shadowVal / 100})`);
+            sGrad.addColorStop(0.6, `rgba(0, 0, 0, ${(shadowVal / 100) * 0.3})`);
+            sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+
+            ctx.beginPath();
+            ctx.ellipse(canvas.width / 2, shadowY, shadowRx, shadowRy, 0, 0, Math.PI * 2);
+            ctx.fillStyle = sGrad;
+            ctx.fill();
+            ctx.restore();
+          }
+
+          // Render Gambar Produk
+          ctx.save();
+          ctx.filter = `brightness(${brightnessVal}%) contrast(${contrastVal}%)`;
+          ctx.drawImage(loadedImage, posX, posY, imgW, imgH);
+          ctx.restore();
+        } else {
+          ctx.fillStyle = '#64748b';
+          ctx.font = '22px Plus Jakarta Sans, sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText('Silakan upload foto produk untuk melihat preview', canvas.width / 2, canvas.height / 2);
+        }
+      }
+
+      // Upload Handler
+      dropzone.addEventListener('click', () => fileInput.click());
+      fileInput.addEventListener('change', (e) => handleImageUpload(e.target.files[0]));
+      dropzone.addEventListener('dragover', (e) => { e.preventDefault(); dropzone.classList.add('border-indigo-500'); });
+      dropzone.addEventListener('dragleave', () => dropzone.classList.remove('border-indigo-500'));
+      dropzone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropzone.classList.remove('border-indigo-500');
+        if (e.dataTransfer.files.length) handleImageUpload(e.dataTransfer.files[0]);
+      });
+
+      function handleImageUpload(file) {
+        if (!file || !file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = (evt) => {
+          const img = new Image();
+          img.onload = () => {
+            loadedImage = img;
+            renderCanvas();
+          };
+          img.src = evt.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Rasio Handler
+      ratioBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          ratioBtns.forEach(b => {
+            b.classList.remove('border-indigo-600', 'bg-indigo-600/10', 'text-indigo-300');
+            b.classList.add('border-slate-800', 'bg-slate-950', 'text-slate-400');
+          });
+          btn.classList.add('border-indigo-600', 'bg-indigo-600/10', 'text-indigo-300');
+          
+          const r = btn.dataset.ratio;
+          if (r === '1:1') { canvasWidth = 1000; canvasHeight = 1000; }
+          else if (r === '4:5') { canvasWidth = 1000; canvasHeight = 1250; }
+          else if (r === '9:16') { canvasWidth = 1080; canvasHeight = 1920; }
+          initCanvas();
+        });
+      });
+
+      // Filter & Warna Handler
+      bgBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          bgColor = btn.dataset.color;
+          renderCanvas();
+        });
+      });
+
+      customBg.addEventListener('input', (e) => {
+        bgColor = e.target.value;
+        renderCanvas();
+      });
+
+      sliderBright.addEventListener('input', (e) => {
+        brightnessVal = e.target.value;
+        valBright.textContent = `${brightnessVal}%`;
+        renderCanvas();
+      });
+
+      sliderContrast.addEventListener('input', (e) => {
+        contrastVal = e.target.value;
+        valContrast.textContent = `${contrastVal}%`;
+        renderCanvas();
+      });
+
+      sliderShadow.addEventListener('input', (e) => {
+        shadowVal = e.target.value;
+        valShadow.textContent = `${shadowVal}%`;
+        renderCanvas();
+      });
+
+      downloadBtn.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = `produk-profesional-${Date.now()}.png`;
+        link.href = canvas.toDataURL('image/png', 1.0);
+        link.click();
+      });
+
+      // AI Caption Generator
+      generateCopyBtn.addEventListener('click', async () => {
+        const apiKey = localStorage.getItem(STORAGE_KEY);
+        if (!apiKey) {
+          openApiModal();
+          return;
+        }
+
+        const pName = productNameInput.value.trim() || "Produk Pilihan UMKM";
+        generateCopyBtn.disabled = true;
+        generateCopyBtn.innerHTML = `Memproses AI...`;
+
+        try {
+          const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+          const prompt = `Buatkan 1 teks caption jualan promosi yang sangat menarik, persuasif, dan siap diunggah ke Instagram/TikTok/WhatsApp untuk produk UMKM bernama "${pName}". Sertakan keunggulan, ajakan bertindak (CTA), serta 4 hashtag yang relevan. Format langsung rapi siap salin.`;
+
+          const parts = [{ text: prompt }];
+
+          if (loadedImage) {
+            const imgBase64 = canvas.toDataURL('image/jpeg', 0.8).split(',')[1];
+            parts.unshift({
+              inline_data: {
+                mime_type: "image/jpeg",
+                data: imgBase64
+              }
+            });
+          }
+
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contents: [{ parts }] })
+          });
+
+          if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.error?.message || "Gagal memanggil Gemini API");
+          }
+
+          const data = await res.json();
+          const text = data.candidates?.[0]?.content?.parts?.[0]?.text || "Gagal menghasilkan caption.";
+          
+          captionContent.textContent = text;
+          aiCaptionBox.style.display = 'block';
+        } catch (err) {
+          alert("Error: " + err.message);
+        } finally {
+          generateCopyBtn.disabled = false;
+          generateCopyBtn.innerHTML = `Buat Caption Promosi Otomatis`;
+        }
+      });
+
+      copyCaptionBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(captionContent.textContent).then(() => {
+          copyCaptionBtn.textContent = "Tersalin!";
+          setTimeout(() => copyCaptionBtn.textContent = "Salin", 1500);
+        });
+      });
+
+      // Inisialisasi awal
+      updateKeyStatus();
+      initCanvas();
+    });
+  </script>
+</body>
+</html>
