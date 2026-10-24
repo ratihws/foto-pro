@@ -3,1989 +3,308 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StudioKilat UMKM - Ubah Foto HP Jadi Foto Produk Profesional</title>
-  <!-- Tailwind CSS CDN -->
+  <title>StudioKilat UMKM - AI Photo Studio & Generator</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@700;800;900&family=Playfair+Display:ital,wght@0,600;0,800;1,600&family=Poppins:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              500: '#16a34a',
-              600: '#15803d',
-              700: '#166534',
-            },
-            accent: {
-              orange: '#f97316',
-              gold: '#eab308',
-            }
-          },
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif'],
-            montserrat: ['Montserrat', 'sans-serif'],
-            playfair: ['"Playfair Display"', 'serif'],
-            poppins: ['Poppins', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Custom Scrollbar */
-    ::-webkit-scrollbar {
-      width: 6px;
-      height: 6px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #f1f5f9;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #cbd5e1;
-      border-radius: 9999px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #94a3b8;
-    }
-
-    .checkerboard {
-      background-color: #f8fafc;
-      background-image: linear-gradient(45deg, #e2e8f0 25%, transparent 25%),
-                        linear-gradient(-45deg, #e2e8f0 25%, transparent 25%),
-                        linear-gradient(45deg, transparent 75%, #e2e8f0 75%),
-                        linear-gradient(-45deg, transparent 75%, #e2e8f0 75%);
-      background-size: 16px 16px;
-      background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
-    }
-
-    input[type=range] {
-      accent-color: #16a34a;
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .checkerboard-pattern {
+      background-color: #1e293b;
+      background-image: linear-gradient(45deg, #0f172a 25%, transparent 25%),
+                        linear-gradient(-45deg, #0f172a 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #0f172a 75%),
+                        linear-gradient(-45deg, transparent 75%, #0f172a 75%);
+      background-size: 20px 20px;
+      background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
     }
   </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
 
   <!-- Header Navigasi -->
-  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 px-4 lg:px-8 py-3 flex items-center justify-between shadow-sm">
-    <div class="flex items-center space-x-3">
-      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
-        <i class="fa-solid fa-wand-magic-sparkles text-lg"></i>
+  <header class="h-16 border-b border-slate-800 bg-slate-900/80 backdrop-blur sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-xl bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+        SK
       </div>
       <div>
-        <div class="flex items-center space-x-2">
-          <span class="font-extrabold text-lg tracking-tight text-slate-900">StudioKilat<span class="text-brand-600">UMKM</span></span>
-          <span class="bg-amber-100 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-300">PRO MODE</span>
-        </div>
-        <p class="text-xs text-slate-500 hidden sm:block">Sulap Foto HP Jadi Foto Produk Siap Promosi & Jualan</p>
+        <h1 class="text-sm md:text-base font-bold text-white leading-tight">StudioKilat UMKM</h1>
+        <p class="text-[11px] text-slate-400">Transformasi Foto Produk HP ke Siap Jual</p>
       </div>
     </div>
 
-    <!-- Quick Ratio & Export Actions -->
-    <div class="flex items-center space-x-2 sm:space-x-3">
-      <button id="btn-copy-clipboard" class="hidden sm:inline-flex items-center space-x-2 text-xs font-semibold px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition active:scale-95" title="Salin gambar ke papan klip">
-        <i class="fa-regular fa-copy"></i>
-        <span>Salin</span>
+    <!-- Tombol Gemini API & Export -->
+    <div class="flex items-center gap-2 md:gap-3">
+      <button id="open-api-modal-btn" class="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition-colors">
+        <span class="w-2 h-2 rounded-full bg-amber-400" id="api-status-dot"></span>
+        <span id="api-status-label">Set Gemini API</span>
       </button>
 
-      <button id="btn-download-hd" class="inline-flex items-center space-x-2 text-xs sm:text-sm font-bold px-4 py-2 bg-gradient-to-r from-brand-600 to-emerald-600 hover:from-brand-700 hover:to-emerald-700 text-white rounded-lg shadow-md shadow-brand-500/25 transition active:scale-95">
-        <i class="fa-solid fa-cloud-arrow-down"></i>
-        <span>Download HD</span>
+      <button id="download-btn" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-xs font-semibold text-white shadow-md shadow-indigo-600/20 transition-all flex items-center gap-1.5">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+        Download HD
       </button>
     </div>
   </header>
 
-  <!-- Workspace Container -->
-  <div class="flex-1 flex flex-col lg:flex-row overflow-hidden relative">
-
-    <!-- LEFT SIDEBAR: TOOLSETS -->
-    <aside class="w-full lg:w-96 bg-white border-r border-slate-200 flex flex-col h-auto lg:h-[calc(100vh-65px)] z-30 shadow-lg lg:shadow-none">
+  <!-- Konten Utama -->
+  <main class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+    
+    <!-- Sidebar Pengaturan (Kiri) -->
+    <aside class="w-full lg:w-96 border-b lg:border-b-0 lg:border-r border-slate-800 bg-slate-900 overflow-y-auto p-4 md:p-5 space-y-6 max-h-[calc(100vh-4rem)]">
       
-      <!-- Tab Navigasi Kategori Tools -->
-      <div class="grid grid-cols-5 border-b border-slate-200 bg-slate-50/80 text-[11px] font-semibold text-slate-600 text-center">
-        <button class="tab-btn py-3 px-1 border-b-2 border-brand-600 text-brand-600 flex flex-col items-center gap-1 transition" data-target="panel-upload">
-          <i class="fa-solid fa-image text-sm"></i>
-          <span>Produk</span>
-        </button>
-        <button class="tab-btn py-3 px-1 border-b-2 border-transparent hover:text-slate-900 flex flex-col items-center gap-1 transition" data-target="panel-studio">
-          <i class="fa-solid fa-palette text-sm"></i>
-          <span>Studio</span>
-        </button>
-        <button class="tab-btn py-3 px-1 border-b-2 border-transparent hover:text-slate-900 flex flex-col items-center gap-1 transition" data-target="panel-magic">
-          <i class="fa-solid fa-eraser text-sm"></i>
-          <span>Hapus BG</span>
-        </button>
-        <button class="tab-btn py-3 px-1 border-b-2 border-transparent hover:text-slate-900 flex flex-col items-center gap-1 transition" data-target="panel-marketing">
-          <i class="fa-solid fa-tags text-sm"></i>
-          <span>Promo</span>
-        </button>
-        <button class="tab-btn py-3 px-1 border-b-2 border-transparent hover:text-slate-900 flex flex-col items-center gap-1 transition" data-target="panel-preset">
-          <i class="fa-solid fa-bolt text-sm"></i>
-          <span>Preset</span>
-        </button>
+      <!-- Upload Foto -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">1. Upload Foto Produk</label>
+        <div id="dropzone" class="border-2 border-dashed border-slate-700 hover:border-indigo-500/70 rounded-xl p-4 text-center cursor-pointer transition-colors bg-slate-950/40">
+          <input type="file" id="file-input" accept="image/*" class="hidden">
+          <svg class="w-8 h-8 text-slate-400 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+          <p class="text-xs text-slate-300 font-medium">Klik atau seret foto HP ke sini</p>
+          <p class="text-[10px] text-slate-500 mt-0.5">Mendukung JPG, PNG, WebP</p>
+        </div>
       </div>
 
-      <!-- Tab Content Area -->
-      <div class="flex-1 overflow-y-auto p-4 space-y-6 text-sm text-slate-700">
-
-        <!-- PANEL 1: UPLOAD & KONTROL PRODUK -->
-        <div id="panel-upload" class="tab-panel space-y-5">
-          <!-- Drop Area -->
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Foto Produk Utama</label>
-            <div id="drop-zone" class="border-2 border-dashed border-slate-300 hover:border-brand-500 bg-slate-50 hover:bg-brand-50/40 rounded-2xl p-5 text-center cursor-pointer transition flex flex-col items-center justify-center gap-2 group">
-              <div class="w-12 h-12 rounded-full bg-brand-100 text-brand-600 flex items-center justify-center text-xl group-hover:scale-110 transition duration-300">
-                <i class="fa-solid fa-camera"></i>
-              </div>
-              <p class="text-xs font-semibold text-slate-800">Klik / Seret Foto Produk ke Sini</p>
-              <p class="text-[11px] text-slate-400">Mendukung format JPG, PNG, WEBP (Bisa dari HP/Kamera)</p>
-              <input type="file" id="product-input" accept="image/*" class="hidden">
-            </div>
-            <!-- Tombol Pakai Foto Demo -->
-            <button id="btn-load-demo" class="mt-2 w-full py-1.5 px-3 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-lg flex items-center justify-center gap-1.5 transition">
-              <i class="fa-solid fa-sparkles text-amber-500"></i>
-              <span>Coba Pakai Contoh Foto Produk (Demo)</span>
-            </button>
-          </div>
-
-          <!-- Format Rasio Kanvas -->
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Rasio Media Sosial</label>
-            <div class="grid grid-cols-2 gap-2">
-              <button class="ratio-btn px-3 py-2 text-xs font-medium border-2 border-brand-600 bg-brand-50 text-brand-700 rounded-xl flex items-center justify-between" data-ratio="1:1">
-                <span>Feed Persegi (1:1)</span>
-                <span class="text-[10px] text-slate-400">IG/Shopee</span>
-              </button>
-              <button class="ratio-btn px-3 py-2 text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 rounded-xl flex items-center justify-between" data-ratio="4:5">
-                <span>Portrait (4:5)</span>
-                <span class="text-[10px] text-slate-400">Feed IG</span>
-              </button>
-              <button class="ratio-btn px-3 py-2 text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 rounded-xl flex items-center justify-between" data-ratio="9:16">
-                <span>Story / Reels (9:16)</span>
-                <span class="text-[10px] text-slate-400">TikTok</span>
-              </button>
-              <button class="ratio-btn px-3 py-2 text-xs font-medium border border-slate-200 bg-white hover:bg-slate-50 rounded-xl flex items-center justify-between" data-ratio="16:9">
-                <span>Landscape (16:9)</span>
-                <span class="text-[10px] text-slate-400">Banner Toko</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Transformasi Produk -->
-          <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200/80">
-            <h4 class="text-xs font-bold text-slate-700 flex items-center justify-between">
-              <span>Posisi & Ukuran Produk</span>
-              <button id="btn-reset-transform" class="text-[11px] text-brand-600 hover:underline">Reset</button>
-            </h4>
-            
-            <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-500">Ukuran (Scale)</span>
-                <span id="scale-val" class="font-bold">100%</span>
-              </div>
-              <input type="range" id="scale-slider" min="20" max="220" value="100" class="w-full">
-            </div>
-
-            <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-500">Putar (Rotate)</span>
-                <span id="rotate-val" class="font-bold">0°</span>
-              </div>
-              <input type="range" id="rotate-slider" min="-180" max="180" value="0" class="w-full">
-            </div>
-
-            <div class="pt-2 flex gap-2">
-              <button id="btn-flip-h" class="flex-1 py-1.5 px-2 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                <i class="fa-solid fa-arrows-left-right"></i> Flip Horisontal
-              </button>
-              <button id="btn-center-product" class="flex-1 py-1.5 px-2 bg-white hover:bg-slate-100 border border-slate-200 rounded-lg text-xs font-semibold flex items-center justify-center gap-1.5 transition">
-                <i class="fa-solid fa-crosshairs"></i> Posisi Tengah
-              </button>
-            </div>
-          </div>
+      <!-- Rasio Kanvas -->
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">2. Ukuran Kanvas</label>
+        <div class="grid grid-cols-3 gap-2">
+          <button data-ratio="1:1" class="ratio-btn px-2.5 py-2 rounded-lg border border-indigo-600 bg-indigo-600/10 text-indigo-300 text-xs font-medium text-center">1:1 Feed</button>
+          <button data-ratio="4:5" class="ratio-btn px-2.5 py-2 rounded-lg border border-slate-800 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-medium text-center">4:5 Portrait</button>
+          <button data-ratio="9:16" class="ratio-btn px-2.5 py-2 rounded-lg border border-slate-800 bg-slate-950 hover:bg-slate-800 text-slate-400 text-xs font-medium text-center">9:16 Story</button>
         </div>
-
-        <!-- PANEL 2: STUDIO & LIGHTING -->
-        <div id="panel-studio" class="tab-panel hidden space-y-5">
-          <!-- Filter Kamera & Lighting -->
-          <div class="space-y-3">
-            <div class="flex justify-between items-center">
-              <label class="text-xs font-bold uppercase tracking-wider text-slate-500">Simulasi Pencahayaan Studio</label>
-              <button id="btn-auto-enhance" class="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1 bg-brand-50 px-2 py-1 rounded-md">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Auto HD Magic
-              </button>
-            </div>
-
-            <div class="grid grid-cols-2 gap-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Kecerahan</span>
-                  <span id="bright-val" class="font-bold">100%</span>
-                </div>
-                <input type="range" id="bright-slider" min="50" max="160" value="100" class="w-full">
-              </div>
-
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Kontras</span>
-                  <span id="contrast-val" class="font-bold">100%</span>
-                </div>
-                <input type="range" id="contrast-slider" min="60" max="170" value="100" class="w-full">
-              </div>
-
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Saturasi Warna</span>
-                  <span id="saturate-val" class="font-bold">100%</span>
-                </div>
-                <input type="range" id="saturate-slider" min="30" max="180" value="100" class="w-full">
-              </div>
-
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Warmth/Suhu</span>
-                  <span id="warmth-val" class="font-bold">0</span>
-                </div>
-                <input type="range" id="warmth-slider" min="-30" max="30" value="0" class="w-full">
-              </div>
-            </div>
-          </div>
-
-          <!-- Studio Backdrop & Backgrounds -->
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Backdrop Studio</label>
-            <div class="grid grid-cols-5 gap-2 mb-3" id="solid-colors-list">
-              <!-- Palette Preset Solids -->
-              <button class="bg-color-btn w-full h-8 rounded-lg border-2 border-brand-500 shadow-sm relative" style="background:#ffffff" data-color="#ffffff" title="Clean White"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#f8f6f0" data-color="#f8f6f0" title="Soft Ivory"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#eef2f6" data-color="#eef2f6" title="Studio Cool Gray"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#f5ebe0" data-color="#f5ebe0" title="Warm Beige"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#e0ede7" data-color="#e0ede7" title="Pastel Mint"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#fbe7e7" data-color="#fbe7e7" title="Blush Rose"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#d97706" data-color="#d97706" title="Terracotta"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#1e293b" data-color="#1e293b" title="Dark Slate"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-slate-200 shadow-sm" style="background:#09090b" data-color="#09090b" title="Luxury Black"></button>
-              <button class="bg-color-btn w-full h-8 rounded-lg border border-dashed border-slate-300 flex items-center justify-center text-slate-500 hover:text-slate-800" id="btn-custom-color" title="Pilih Warna Bebas">
-                <i class="fa-solid fa-eye-dropper text-xs"></i>
-                <input type="color" id="bg-color-picker" class="opacity-0 absolute inset-0 cursor-pointer">
-              </button>
-            </div>
-
-            <!-- Studio Lighting Presets -->
-            <label class="block text-xs font-medium text-slate-500 mb-1.5">Efek Pencahayaan Spotlight / Gradien</label>
-            <div class="grid grid-cols-3 gap-2 text-xs">
-              <button class="bg-gradient-btn py-2 px-1 border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100 font-medium" data-gradient="none">Flat/Solid</button>
-              <button class="bg-gradient-btn py-2 px-1 border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100 font-medium" data-gradient="spotlight">Studio Spotlight</button>
-              <button class="bg-gradient-btn py-2 px-1 border border-slate-200 rounded-lg bg-slate-50 hover:bg-slate-100 font-medium" data-gradient="linear">Soft Fade</button>
-            </div>
-
-            <!-- Custom Background Texture / Image -->
-            <div class="mt-3">
-              <label class="text-[11px] font-semibold text-slate-600 block mb-1">Gunakan Latar Tekstur/Custom</label>
-              <div class="grid grid-cols-4 gap-2 text-center text-[10px]">
-                <button class="bg-texture-btn p-1.5 border border-slate-200 rounded-lg hover:border-brand-500" data-texture="none">Polos</button>
-                <button class="bg-texture-btn p-1.5 border border-slate-200 rounded-lg hover:border-brand-500" data-texture="marble">Marmer</button>
-                <button class="bg-texture-btn p-1.5 border border-slate-200 rounded-lg hover:border-brand-500" data-texture="wood">Kayu Estetik</button>
-                <label class="p-1.5 border border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-brand-500 flex items-center justify-center">
-                  <span>+ Upload BG</span>
-                  <input type="file" id="bg-custom-input" accept="image/*" class="hidden">
-                </label>
-              </div>
-            </div>
-          </div>
-
-          <!-- Realistic Contact Shadow & Studio Podium -->
-          <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-2">
-                <input type="checkbox" id="shadow-toggle" class="w-4 h-4 text-brand-600 rounded" checked>
-                <label for="shadow-toggle" class="text-xs font-bold text-slate-700 cursor-pointer">Bayangan Produk (Contact Shadow)</label>
-              </div>
-              <span class="text-[10px] bg-slate-200 px-2 py-0.5 rounded text-slate-600">Efek 3D Realistis</span>
-            </div>
-
-            <div id="shadow-controls" class="space-y-2">
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Kepekatan Bayangan</span>
-                  <span id="shadow-opacity-val" class="font-bold">45%</span>
-                </div>
-                <input type="range" id="shadow-opacity-slider" min="5" max="90" value="45" class="w-full">
-              </div>
-
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Jarak Bayangan (Offset Y)</span>
-                  <span id="shadow-offset-val" class="font-bold">18px</span>
-                </div>
-                <input type="range" id="shadow-offset-slider" min="0" max="60" value="18" class="w-full">
-              </div>
-
-              <div>
-                <div class="flex justify-between text-[11px] mb-1">
-                  <span class="text-slate-500">Kelembutan (Blur)</span>
-                  <span id="shadow-blur-val" class="font-bold">25px</span>
-                </div>
-                <input type="range" id="shadow-blur-slider" min="4" max="60" value="25" class="w-full">
-              </div>
-            </div>
-
-            <!-- Studio Podium Platform -->
-            <div class="pt-2 border-t border-slate-200">
-              <div class="flex items-center justify-between mb-1.5">
-                <label class="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-                  <input type="checkbox" id="podium-toggle" class="w-4 h-4 text-brand-600 rounded">
-                  <span>Podium Display Produk</span>
-                </label>
-                <select id="podium-shape" class="text-xs bg-white border border-slate-300 rounded px-2 py-0.5">
-                  <option value="cylinder">Silinder Bulat</option>
-                  <option value="block">Balok Kotak</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PANEL 3: PENGHAPUS BG (MAGIC ERASE & CHROMA TOLERANCE) -->
-        <div id="panel-magic" class="tab-panel hidden space-y-5">
-          <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-amber-900 text-xs">
-            <i class="fa-solid fa-lightbulb text-amber-600 mr-1"></i>
-            <strong>Tips UMKM:</strong> Klik area latar belakang foto produk pada kanvas untuk menghapus warna background secara instan.
-          </div>
-
-          <div class="space-y-3">
-            <button id="btn-sample-eyedropper" class="w-full py-2.5 px-4 bg-brand-50 hover:bg-brand-100 border border-brand-300 text-brand-700 font-bold rounded-xl flex items-center justify-center gap-2 text-xs transition">
-              <i class="fa-solid fa-eye-dropper"></i>
-              <span>1. Klik Disini lalu Klik Warna BG di Foto</span>
-            </button>
-
-            <div>
-              <div class="flex justify-between text-xs mb-1">
-                <span class="text-slate-500">Toleransi Warna (Magic Range)</span>
-                <span id="tolerance-val" class="font-bold">25</span>
-              </div>
-              <input type="range" id="tolerance-slider" min="5" max="80" value="25" class="w-full">
-            </div>
-
-            <div class="flex gap-2">
-              <button id="btn-apply-chroma" class="flex-1 py-2 bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs rounded-lg transition">
-                <i class="fa-solid fa-wand-magic"></i> Hapus Warna Terpilih
-              </button>
-              <button id="btn-restore-original" class="py-2 px-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-semibold text-xs rounded-lg transition" title="Pulihkan foto asli">
-                <i class="fa-solid fa-rotate-left"></i> Pulihkan
-              </button>
-            </div>
-          </div>
-
-          <div class="border-t border-slate-200 pt-3">
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Penghapus Manual (Kuas)</label>
-            <div class="space-y-3 bg-slate-50 p-3 rounded-xl border border-slate-200">
-              <div class="flex gap-2">
-                <button id="btn-tool-brush-erase" class="flex-1 py-1.5 px-2 bg-white hover:bg-slate-100 border border-slate-300 rounded-lg text-xs font-semibold flex items-center justify-center gap-1">
-                  <i class="fa-solid fa-eraser text-red-500"></i> Mode Hapus
-                </button>
-                <button id="btn-tool-select" class="flex-1 py-1.5 px-2 bg-brand-50 border border-brand-500 text-brand-700 rounded-lg text-xs font-semibold flex items-center justify-center gap-1">
-                  <i class="fa-solid fa-hand"></i> Mode Geser Foto
-                </button>
-              </div>
-              <div>
-                <div class="flex justify-between text-xs mb-1">
-                  <span class="text-slate-500">Ukuran Kuas</span>
-                  <span id="brush-size-val" class="font-bold">20px</span>
-                </div>
-                <input type="range" id="brush-size-slider" min="5" max="60" value="20" class="w-full">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PANEL 4: PROMO & MARKETING KIT UMKM -->
-        <div id="panel-marketing" class="tab-panel hidden space-y-5">
-          <!-- Stiker & Badge Promo -->
-          <div>
-            <label class="block text-xs font-bold uppercase tracking-wider text-slate-500 mb-2">Pilih Badge / Stiker Jualan</label>
-            <div class="grid grid-cols-2 gap-2 text-xs">
-              <button class="badge-add-btn p-2 bg-red-50 hover:bg-red-100 border border-red-200 text-red-700 font-bold rounded-xl flex items-center gap-2" data-badge="diskon">
-                <span class="bg-red-600 text-white rounded p-1 text-[10px]"><i class="fa-solid fa-percent"></i></span>
-                <span>Diskon 50%</span>
-              </button>
-              <button class="badge-add-btn p-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 font-bold rounded-xl flex items-center gap-2" data-badge="bestseller">
-                <span class="bg-amber-500 text-white rounded p-1 text-[10px]"><i class="fa-solid fa-crown"></i></span>
-                <span>Best Seller</span>
-              </button>
-              <button class="badge-add-btn p-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 font-bold rounded-xl flex items-center gap-2" data-badge="freeongkir">
-                <span class="bg-emerald-600 text-white rounded p-1 text-[10px]"><i class="fa-solid fa-truck-fast"></i></span>
-                <span>Free Ongkir</span>
-              </button>
-              <button class="badge-add-btn p-2 bg-teal-50 hover:bg-teal-100 border border-teal-200 text-teal-800 font-bold rounded-xl flex items-center gap-2" data-badge="halal">
-                <span class="bg-teal-600 text-white rounded p-1 text-[10px]"><i class="fa-solid fa-certificate"></i></span>
-                <span>100% Halal</span>
-              </button>
-              <button class="badge-add-btn p-2 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-800 font-bold rounded-xl flex items-center gap-2" data-badge="lokal">
-                <span class="bg-rose-600 text-white rounded p-1 text-[10px]"><i class="fa-solid fa-flag"></i></span>
-                <span>Produk Lokal</span>
-              </button>
-              <button class="badge-add-btn p-2 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 font-bold rounded-xl flex items-center gap-2" data-badge="readystock">
-                <span class="bg-blue-600 text-white rounded p-1 text-[10px]"><i class="fa-solid fa-box-open"></i></span>
-                <span>Ready Stock</span>
-              </button>
-            </div>
-            <div class="mt-2 text-right">
-              <button id="btn-clear-badges" class="text-[11px] text-red-500 hover:underline">Hapus Semua Badge</button>
-            </div>
-          </div>
-
-          <!-- Teks Editor Produk & Harga -->
-          <div class="space-y-3 bg-slate-50 p-3.5 rounded-xl border border-slate-200">
-            <div class="flex items-center justify-between">
-              <label class="text-xs font-bold text-slate-700">Informasi Produk & Harga Coret</label>
-              <input type="checkbox" id="text-overlay-toggle" class="w-4 h-4 text-brand-600 rounded" checked>
-            </div>
-
-            <div id="text-overlay-fields" class="space-y-2.5">
-              <div>
-                <label class="text-[10px] font-bold text-slate-400 uppercase">Nama Produk</label>
-                <input type="text" id="input-prod-title" value="Kopi Arabika Premium 250g" class="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:border-brand-500 font-semibold">
-              </div>
-
-              <div>
-                <label class="text-[10px] font-bold text-slate-400 uppercase">Tagline / Keunggulan</label>
-                <input type="text" id="input-prod-tagline" value="Aroma Wangi & Rasa Khas Nusantara" class="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:border-brand-500">
-              </div>
-
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="text-[10px] font-bold text-slate-400 uppercase">Harga Promo</label>
-                  <input type="text" id="input-prod-price" value="Rp 49.000" class="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:border-brand-500 text-brand-700 font-extrabold">
-                </div>
-                <div>
-                  <label class="text-[10px] font-bold text-slate-400 uppercase">Harga Normal (Coret)</label>
-                  <input type="text" id="input-prod-oldprice" value="Rp 99.000" class="w-full text-xs px-2.5 py-1.5 border border-slate-300 rounded-lg focus:outline-none focus:border-brand-500 line-through text-slate-400">
-                </div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-2">
-                <div>
-                  <label class="text-[10px] font-bold text-slate-400 uppercase">Font Style</label>
-                  <select id="select-font-family" class="w-full text-xs px-2 py-1.5 border border-slate-300 rounded-lg bg-white">
-                    <option value="Plus Jakarta Sans">Modern Sans</option>
-                    <option value="Montserrat">Bold Marketing</option>
-                    <option value="Playfair Display">Elegan Luxury</option>
-                    <option value="Poppins">Friendly Pop</option>
-                  </select>
-                </div>
-                <div>
-                  <label class="text-[10px] font-bold text-slate-400 uppercase">Warna Teks</label>
-                  <div class="flex items-center space-x-2 h-8">
-                    <button class="text-color-btn w-6 h-6 rounded-full border border-slate-300 bg-slate-900" data-color="#0f172a"></button>
-                    <button class="text-color-btn w-6 h-6 rounded-full border border-slate-300 bg-white" data-color="#ffffff"></button>
-                    <button class="text-color-btn w-6 h-6 rounded-full border border-slate-300 bg-amber-500" data-color="#f59e0b"></button>
-                    <button class="text-color-btn w-6 h-6 rounded-full border border-slate-300 bg-emerald-600" data-color="#059669"></button>
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <label class="text-[10px] font-bold text-slate-400 uppercase">Kontak / Toko (Bawah)</label>
-                <div class="flex items-center gap-1">
-                  <span class="text-xs bg-slate-200 px-2 py-1.5 rounded-l-lg text-slate-600"><i class="fa-brands fa-whatsapp"></i></span>
-                  <input type="text" id="input-prod-contact" value="Order WA: 0812-3456-7890 | @tokoberkah" class="w-full text-xs px-2 py-1.5 border border-slate-300 rounded-r-lg focus:outline-none focus:border-brand-500">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Watermark Logo UMKM -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <label class="text-xs font-bold text-slate-700">Logo / Watermark Brand</label>
-              <input type="checkbox" id="watermark-toggle" class="w-4 h-4 text-brand-600 rounded">
-            </div>
-            <div id="watermark-controls" class="hidden space-y-2">
-              <input type="file" id="logo-input" accept="image/*" class="w-full text-xs text-slate-500 file:mr-2 file:py-1 file:px-2 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-100 hover:file:bg-slate-200">
-              <div class="flex justify-between items-center text-xs">
-                <span class="text-slate-500">Posisi Watermark</span>
-                <select id="watermark-pos" class="text-xs border border-slate-300 rounded p-1 bg-white">
-                  <option value="top-right">Pojok Kanan Atas</option>
-                  <option value="top-left">Pojok Kiri Atas</option>
-                  <option value="bottom-right">Pojok Kanan Bawah</option>
-                  <option value="center">Tengah Transparan</option>
-                </select>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- PANEL 5: PRESET CEPAT 1-KLIK -->
-        <div id="panel-preset" class="tab-panel hidden space-y-4">
-          <p class="text-xs text-slate-500">Pilih tema instan yang disesuaikan dengan standar foto katalog komersial.</p>
-
-          <div class="space-y-2.5">
-            <!-- Preset 1 -->
-            <div class="preset-card cursor-pointer p-3 border-2 border-slate-200 hover:border-brand-500 rounded-xl transition bg-white flex items-center gap-3" data-preset="marketplace">
-              <div class="w-12 h-12 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-600 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-store"></i>
-              </div>
-              <div class="flex-1">
-                <h5 class="text-xs font-bold text-slate-800">Katalog Bersih Marketplace</h5>
-                <p class="text-[11px] text-slate-500">Latar putih bersih 100%, bayangan halus, fokus produk Tokopedia/Shopee.</p>
-              </div>
-            </div>
-
-            <!-- Preset 2 -->
-            <div class="preset-card cursor-pointer p-3 border-2 border-slate-200 hover:border-brand-500 rounded-xl transition bg-white flex items-center gap-3" data-preset="flashsale">
-              <div class="w-12 h-12 rounded-lg bg-red-50 border border-red-200 text-red-600 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-bolt"></i>
-              </div>
-              <div class="flex-1">
-                <h5 class="text-xs font-bold text-slate-800">Promo Bombastis Flash Sale</h5>
-                <p class="text-[11px] text-slate-500">Warna kontras, badge diskon 50%, harga coret mencolok untuk Instagram.</p>
-              </div>
-            </div>
-
-            <!-- Preset 3 -->
-            <div class="preset-card cursor-pointer p-3 border-2 border-slate-200 hover:border-brand-500 rounded-xl transition bg-white flex items-center gap-3" data-preset="luxury">
-              <div class="w-12 h-12 rounded-lg bg-slate-900 border border-slate-700 text-amber-400 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-gem"></i>
-              </div>
-              <div class="flex-1">
-                <h5 class="text-xs font-bold text-slate-800">Mewah & Elegan (Luxury Glow)</h5>
-                <p class="text-[11px] text-slate-500">Latar gelap dengan spotlight studio dan font berkelas untuk produk premium.</p>
-              </div>
-            </div>
-
-            <!-- Preset 4 -->
-            <div class="preset-card cursor-pointer p-3 border-2 border-slate-200 hover:border-brand-500 rounded-xl transition bg-white flex items-center gap-3" data-preset="organic">
-              <div class="w-12 h-12 rounded-lg bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-xl shrink-0">
-                <i class="fa-solid fa-leaf"></i>
-              </div>
-              <div class="flex-1">
-                <h5 class="text-xs font-bold text-slate-800">Estetik Alami / Kuliner & Kopi</h5>
-                <p class="text-[11px] text-slate-500">Tone hangat (warm), podium, cocok untuk makanan, minuman & skincare.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
       </div>
 
-      <!-- Quick Info / Status UMKM -->
-      <div class="p-3 bg-slate-50 border-t border-slate-200 text-center text-[11px] text-slate-500">
-        <i class="fa-solid fa-shield-check text-brand-600 mr-1"></i> 100% Gratis & Hasil Foto Bebas Hak Cipta
+      <!-- Pengaturan Studio & Backdrop -->
+      <div class="space-y-3">
+        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">3. Studio Lighting & Latar</label>
+        
+        <div>
+          <span class="text-xs text-slate-400 block mb-1.5">Warna Backdrop:</span>
+          <div class="flex items-center gap-2 flex-wrap">
+            <button data-color="#ffffff" class bg-btn w-7 h-7 rounded-full bg-white border border-slate-600 focus:ring-2 ring-indigo-500></button>
+            <button data-color="#f8fafc" class bg-btn w-7 h-7 rounded-full bg-slate-100 border border-slate-600 focus:ring-2 ring-indigo-500></button>
+            <button data-color="#f1f5f9" class bg-btn w-7 h-7 rounded-full bg-slate-200 border border-slate-600 focus:ring-2 ring-indigo-500></button>
+            <button data-color="#e2e8f0" class bg-btn w-7 h-7 rounded-full bg-slate-300 border border-slate-600 focus:ring-2 ring-indigo-500></button>
+            <button data-color="#0f172a" class bg-btn w-7 h-7 rounded-full bg-slate-900 border border-slate-600 focus:ring-2 ring-indigo-500></button>
+            <button data-color="#451a03" class bg-btn w-7 h-7 rounded-full bg-amber-950 border border-slate-600 focus:ring-2 ring-indigo-500></button>
+            <input type="color" id="custom-bg-color" value="#ffffff" class="w-7 h-7 rounded cursor-pointer bg-transparent border-0">
+          </div>
+        </div>
+
+        <div class="space-y-2 pt-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Kecerahan (Lighting)</span>
+            <span id="val-bright">100%</span>
+          </div>
+          <input type="range" id="slider-bright" min="50" max="150" value="105" class="w-full accent-indigo-500">
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Kontras Produk</span>
+            <span id="val-contrast">100%</span>
+          </div>
+          <input type="range" id="slider-contrast" min="50" max="150" value="110" class="w-full accent-indigo-500">
+        </div>
+
+        <div class="space-y-2">
+          <div class="flex items-center justify-between text-xs text-slate-400">
+            <span>Ketajaman Bayangan (Shadow 3D)</span>
+            <span id="val-shadow">40%</span>
+          </div>
+          <input type="range" id="slider-shadow" min="0" max="100" value="40" class="w-full accent-indigo-500">
+        </div>
       </div>
+
+      <!-- Generator Caption Promosi via Gemini -->
+      <div class="border-t border-slate-800 pt-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider">4. AI Caption Jualan</label>
+          <span class="text-[10px] text-indigo-400 font-medium">Powered by Gemini</span>
+        </div>
+        <input type="text" id="product-name-input" placeholder="Nama Produk (misal: Keripik Pisang Cokelat)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-indigo-500">
+        <button id="generate-copy-btn" class="w-full py-2 bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-xs font-semibold rounded-lg text-white transition-all shadow-sm flex items-center justify-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          Buat Caption Promosi Otomatis
+        </button>
+        <div id="ai-caption-box" class="hidden relative bg-slate-950 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 max-h-40 overflow-y-auto leading-relaxed">
+          <button id="copy-caption-btn" class="absolute top-2 right-2 px-1.5 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-slate-300">Salin</button>
+          <p id="caption-content" class="pr-8 whitespace-pre-wrap"></p>
+        </div>
+      </div>
+
     </aside>
 
-    <!-- MAIN CANVAS WORKSPACE -->
-    <main class="flex-1 flex flex-col bg-slate-200/80 relative overflow-hidden">
+    <!-- Kanvas Preview (Kanan) -->
+    <section class="flex-1 bg-slate-950 p-4 md:p-8 flex items-center justify-center overflow-auto checkerboard-pattern min-h-[400px]">
+      <div class="relative shadow-2xl rounded-lg overflow-hidden border border-slate-800 max-w-full max-h-[80vh] flex items-center justify-center bg-white transition-all" id="canvas-wrapper">
+        <canvas id="product-canvas" class="max-w-full max-h-[75vh] object-contain block"></canvas>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Box: Gemini API Key & Panduan -->
+  <div id="gemini-api-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-lg overflow-hidden shadow-2xl">
       
-      <!-- Canvas Control Top Bar -->
-      <div class="bg-white/80 backdrop-blur-sm border-b border-slate-200/80 px-4 py-2 flex items-center justify-between text-xs text-slate-600 z-10">
-        <div class="flex items-center space-x-3">
-          <span class="font-semibold text-slate-800 flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-brand-500"></span>
-            Pratinjau Studio
+      <div class="px-6 py-4 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="p-1.5 bg-indigo-500/10 text-indigo-400 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
           </span>
-          <span class="text-slate-400">|</span>
-          <span id="canvas-dim-indicator">1080 × 1080 px (1:1)</span>
+          <h3 class="text-sm md:text-base font-semibold text-white">Pengaturan Gemini API Key</h3>
+        </div>
+        <button id="close-api-modal-btn" class="text-slate-400 hover:text-white text-xl leading-none">&times;</button>
+      </div>
+
+      <div class="p-6 space-y-4">
+        <p class="text-xs text-slate-400 leading-relaxed">
+          Kunci API disimpan secara lokal di browser perangkat Anda melalui <code class="text-indigo-300">localStorage</code> dan langsung berkomunikasi ke endpoint resmi Google tanpa perantara server.
+        </p>
+
+        <div>
+          <label for="gemini-api-input" class="block text-xs font-medium text-slate-300 mb-1.5">API Key Google AI Studio</label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="gemini-api-input" 
+              placeholder="AIzaSy..." 
+              class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3.5 py-2.5 text-xs md:text-sm text-white focus:outline-none focus:border-indigo-500 font-mono pr-12"
+            >
+            <button type="button" id="toggle-key-visibility" class="absolute right-3 top-2.5 text-slate-400 hover:text-slate-200 text-xs">
+              Lihat
+            </button>
+          </div>
         </div>
 
-        <div class="flex items-center space-x-2">
-          <span class="text-[11px] text-slate-500 hidden md:inline">Geser produk langsung di kanvas</span>
-          <button id="btn-zoom-fit" class="p-1.5 hover:bg-slate-100 rounded text-slate-600" title="Sesuaikan Tampilan">
-            <i class="fa-solid fa-expand"></i>
-          </button>
+        <!-- Panduan Mendapatkan Key Gratis -->
+        <div class="bg-indigo-950/30 border border-indigo-900/40 rounded-xl p-3.5 text-xs text-slate-300 space-y-2">
+          <div class="font-semibold text-indigo-300">Cara Mendapatkan API Key Gratis:</div>
+          <ol class="list-decimal list-inside space-y-1 text-slate-400 pl-0.5 leading-normal">
+            <li>Kunjungi portal <a href="https://aistudio.google.com/" target="_blank" rel="noopener noreferrer" class="text-indigo-400 underline font-medium hover:text-indigo-300">aistudio.google.com</a> dan masuk dengan akun Google.</li>
+            <li>Klik menu <b>Get API key</b> di panel navigasi sebelah kiri.</li>
+            <li>Pilih <b>Create API key</b> &gt; <b>Create API key in new project</b>.</li>
+            <li>Salin string API key yang berawalan <code class="text-slate-300">AIzaSy...</code>, lalu tempel pada kotak input di atas.</li>
+          </ol>
         </div>
       </div>
 
-      <!-- Canvas Viewport -->
-      <div class="flex-1 flex items-center justify-center p-4 sm:p-8 overflow-auto relative select-none">
-        <div class="relative shadow-2xl rounded-lg overflow-hidden border border-slate-300 checkerboard transition-all duration-200">
-          <canvas id="main-canvas" width="1080" height="1080" class="block max-w-[85vw] max-h-[70vh] sm:max-h-[75vh] object-contain cursor-grab active:cursor-grabbing"></canvas>
+      <div class="px-6 py-3.5 bg-slate-950 border-t border-slate-800 flex justify-between items-center">
+        <button id="clear-api-key-btn" class="text-xs text-rose-400 hover:underline">Hapus Kunci</button>
+        <div class="flex gap-2">
+          <button id="cancel-api-modal-btn" class="px-3.5 py-2 rounded-lg text-xs font-medium text-slate-300 hover:bg-slate-800 transition-colors">Batal</button>
+          <button id="save-api-key-btn" class="px-4 py-2 rounded-lg text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 text-white transition-colors">Simpan Kunci</button>
         </div>
       </div>
 
-      <!-- Notification Toast -->
-      <div id="toast-msg" class="absolute bottom-4 right-4 bg-slate-900/95 text-white px-4 py-2.5 rounded-xl shadow-xl text-xs flex items-center gap-2 transform translate-y-16 opacity-0 transition duration-300 pointer-events-none z-50">
-        <i class="fa-solid fa-circle-check text-emerald-400"></i>
-        <span id="toast-text">Berhasil disalin!</span>
-      </div>
-    </main>
-
+    </div>
   </div>
 
-  <!-- JAVASCRIPT ENGINE -->
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      // CANVAS SETUP
-      const canvas = document.getElementById('main-canvas');
-      const ctx = canvas.getContext('2d');
+    const STORAGE_KEY = 'gemini_api_key_umkm';
+    
+    // Canvas & Studio Variables
+    const canvas = document.getElementById('product-canvas');
+    const ctx = canvas.getContext('2d');
+    let loadedImage = null;
+    let canvasWidth = 1000;
+    let canvasHeight = 1000;
+    let bgColor = '#ffffff';
+    let brightnessVal = 105;
+    let contrastVal = 110;
+    let shadowVal = 40;
+
+    // Elements
+    const fileInput = document.getElementById('file-input');
+    const dropzone = document.getElementById('dropzone');
+    const downloadBtn = document.getElementById('download-btn');
+    const customBg = document.getElementById('custom-bg-color');
+    const sliderBright = document.getElementById('slider-bright');
+    const sliderContrast = document.getElementById('slider-contrast');
+    const sliderShadow = document.getElementById('slider-shadow');
+    const valBright = document.getElementById('val-bright');
+    const valContrast = document.getElementById('val-contrast');
+    const valShadow = document.getElementById('val-shadow');
+    const ratioBtns = document.querySelectorAll('.ratio-btn');
+    const bgBtns = document.querySelectorAll('.bg-btn');
+
+    // API Modal Elements
+    const apiModal = document.getElementById('gemini-api-modal');
+    const openApiBtn = document.getElementById('open-api-modal-btn');
+    const closeApiBtn = document.getElementById('close-api-modal-btn');
+    const cancelApiBtn = document.getElementById('cancel-api-modal-btn');
+    const saveApiBtn = document.getElementById('save-api-key-btn');
+    const clearApiBtn = document.getElementById('clear-api-key-btn');
+    const apiInput = document.getElementById('gemini-api-input');
+    const toggleEye = document.getElementById('toggle-key-visibility');
+    const statusDot = document.getElementById('api-status-dot');
+    const statusLabel = document.getElementById('api-status-label');
+
+    // AI Elements
+    const productNameInput = document.getElementById('product-name-input');
+    const generateCopyBtn = document.getElementById('generate-copy-btn');
+    const aiCaptionBox = document.getElementById('ai-caption-box');
+    const captionContent = document.getElementById('caption-content');
+    const copyCaptionBtn = document.getElementById('copy-caption-btn');
+
+    // Inisialisasi Kanvas Standar
+    function initCanvas() {
+      canvas.width = canvasWidth;
+      canvas.height = canvasHeight;
+      renderCanvas();
+    }
+
+    function renderCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // 1. Gambar Background Solid
+      ctx.fillStyle = bgColor;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // 2. Efek Spotlight Halus (Studio Radial Lighting)
+      const grad = ctx.createRadialGradient(
+        canvas.width / 2, canvas.height * 0.45, canvas.width * 0.1,
+        canvas.width / 2, canvas.height * 0.5, canvas.width * 0.65
+      );
+      grad.addColorStop(0, 'rgba(255, 255, 255, 0.45)');
+      grad.addColorStop(1, 'rgba(0, 0, 0, 0.12)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      if (loadedImage) {
+        const padding = canvas.width * 0.12;
+        const maxW = canvas.width - (padding * 2);
+        const maxH = canvas.height - (padding * 2);
+        
+        let imgW = loadedImage.width;
+        let imgH = loadedImage.height;
+        const ratio = Math.min(maxW / imgW, maxH / imgH);
+        imgW *= ratio;
+        imgH *= ratio;
+
+        const posX = (canvas.width - imgW) / 2;
+        const posY = (canvas.height - imgH) / 2;
+
+        // 3. Contact Shadow 3D Realistis
+        if (shadowVal > 0) {
+          ctx.save();
+          const shadowY = posY + imgH - 8;
+          const shadowRx = (imgW * 0.42);
+          const shadowRy = 14 + (shadowVal * 0.15);
+          
+          const sGrad = ctx.createRadialGradient(
+            canvas.width / 2, shadowY, 5,
+            canvas.width / 2, shadowY, shadowRx
+          );
+          sGrad.addColorStop(0, `rgba(0, 0, 0, ${shadowVal / 100})`);
+          sGrad.addColorStop(0.6, `rgba(0, 0, 0, ${(shadowVal / 100) * 0.3})`);
+          sGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
 
-      // STATE UTAMA APLIKASI
-      const state = {
-        ratio: '1:1',
-        width: 1080,
-        height: 1080,
-
-        // Gambar Produk
-        productImg: null,
-        originalImgData: null,
-        productLoaded: false,
-        transform: {
-          x: 540,
-          y: 540,
-          scale: 1,
-          rotation: 0,
-          flipH: 1
-        },
-
-        // Studio & Pencahayaan
-        lighting: {
-          brightness: 100,
-          contrast: 100,
-          saturate: 100,
-          warmth: 0
-        },
-
-        // Background
-        bg: {
-          type: 'solid', // solid, gradient, texture
-          color: '#ffffff',
-          gradientType: 'none', // none, spotlight, linear
-          texture: 'none',
-          customImage: null
-        },
-
-        // Shadow & Podium
-        shadow: {
-          enabled: true,
-          opacity: 0.45,
-          offsetY: 18,
-          blur: 25
-        },
-        podium: {
-          enabled: false,
-          shape: 'cylinder',
-          color: '#e2e8f0'
-        },
-
-        // Badges / Marketing
-        badges: [],
-
-        // Text Banner
-        textBanner: {
-          enabled: true,
-          title: 'Kopi Arabika Premium 250g',
-          tagline: 'Aroma Wangi & Rasa Khas Nusantara',
-          price: 'Rp 49.000',
-          oldPrice: 'Rp 99.000',
-          contact: 'Order WA: 0812-3456-7890 | @tokoberkah',
-          fontFamily: 'Plus Jakarta Sans',
-          color: '#0f172a'
-        },
-
-        // Watermark Logo
-        watermark: {
-          enabled: false,
-          img: null,
-          position: 'top-right'
-        },
-
-        // Erase / Masking Tool
-        toolMode: 'select', // 'select', 'eyedropper', 'brush-erase'
-        brushSize: 20,
-        chromaTolerance: 25,
-        chromaTargetColor: null
-      };
-
-      // INTERACTION DRAG PRODUK DI KANVAS
-      let isDragging = false;
-      let startX, startY;
-      let isErasing = false;
-
-      // Inisialisasi Demo Image Pertama Kali
-      loadDemoProduct();
-
-      // ================= TAB NAVIGATION =================
-      const tabButtons = document.querySelectorAll('.tab-btn');
-      const tabPanels = document.querySelectorAll('.tab-panel');
-
-      tabButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const target = btn.getAttribute('data-target');
-          tabButtons.forEach(b => {
-            b.classList.remove('border-brand-600', 'text-brand-600');
-            b.classList.add('border-transparent');
-          });
-          btn.classList.add('border-brand-600', 'text-brand-600');
-          btn.classList.remove('border-transparent');
-
-          tabPanels.forEach(panel => {
-            if (panel.id === target) {
-              panel.classList.remove('hidden');
-            } else {
-              panel.classList.add('hidden');
-            }
-          });
-        });
-      });
-
-      // ================= UPLOAD GAMBAR PRODUK =================
-      const productInput = document.getElementById('product-input');
-      const dropZone = document.getElementById('drop-zone');
-
-      dropZone.addEventListener('click', () => productInput.click());
-      
-      dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.classList.add('border-brand-500', 'bg-brand-50/70');
-      });
-
-      dropZone.addEventListener('dragleave', () => {
-        dropZone.classList.remove('border-brand-500', 'bg-brand-50/70');
-      });
-
-      dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        dropZone.classList.remove('border-brand-500', 'bg-brand-50/70');
-        if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-          handleProductFile(e.dataTransfer.files[0]);
-        }
-      });
-
-      productInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          handleProductFile(e.target.files[0]);
-        }
-      });
-
-      function handleProductFile(file) {
-        if (!file.type.startsWith('image/')) {
-          showToast('Harap unggah berkas gambar!');
-          return;
-        }
-        const reader = new FileReader();
-        reader.onload = (evt) => {
-          const img = new Image();
-          img.onload = () => {
-            state.productImg = img;
-            state.productLoaded = true;
-            // Center & fit proporsional awal
-            resetProductTransform();
-            showToast('Foto produk berhasil dimuat!');
-            render();
-          };
-          img.src = evt.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-
-      // LOAD DEMO PRODUCT (Contoh botol minuman elegan sintetis SVG)
-      function loadDemoProduct() {
-        const demoCanvas = document.createElement('canvas');
-        demoCanvas.width = 600;
-        demoCanvas.height = 800;
-        const dCtx = demoCanvas.getContext('2d');
-
-        // Menggambar botol mockup elegan
-        // Badan botol
-        const grad = dCtx.createLinearGradient(180, 0, 420, 0);
-        grad.addColorStop(0, '#2b1d0c');
-        grad.addColorStop(0.3, '#78350f');
-        grad.addColorStop(0.5, '#b45309');
-        grad.addColorStop(0.7, '#78350f');
-        grad.addColorStop(1, '#1c1917');
-
-        // Bentuk Botol Kopi / Serum
-        dCtx.fillStyle = grad;
-        dCtx.beginPath();
-        dCtx.roundRect(170, 260, 260, 480, [15, 15, 40, 40]);
-        dCtx.fill();
-
-        // Leher Botol
-        dCtx.beginPath();
-        dCtx.roundRect(250, 160, 100, 100, [6, 6, 0, 0]);
-        dCtx.fill();
-
-        // Tutup Botol Emas
-        const goldGrad = dCtx.createLinearGradient(235, 0, 365, 0);
-        goldGrad.addColorStop(0, '#78350f');
-        goldGrad.addColorStop(0.4, '#fbbf24');
-        goldGrad.addColorStop(0.6, '#fef08a');
-        goldGrad.addColorStop(1, '#92400e');
-        dCtx.fillStyle = goldGrad;
-        dCtx.beginPath();
-        dCtx.roundRect(240, 90, 120, 80, 8);
-        dCtx.fill();
-
-        // Label Botol Putih Mewah
-        dCtx.fillStyle = '#ffffff';
-        dCtx.beginPath();
-        dCtx.roundRect(185, 340, 230, 320, 10);
-        dCtx.fill();
-
-        // Garis emas tepi label
-        dCtx.lineWidth = 3;
-        dCtx.strokeStyle = '#d97706';
-        dCtx.strokeRect(195, 350, 210, 300);
-
-        // Teks di Label
-        dCtx.fillStyle = '#0f172a';
-        dCtx.font = 'bold 22px Poppins, sans-serif';
-        dCtx.textAlign = 'center';
-        dCtx.fillText('ORIGINAL', 300, 410);
-
-        dCtx.font = 'italic 16px "Playfair Display", serif';
-        dCtx.fillStyle = '#d97706';
-        dCtx.fillText('Cold Brew Blend', 300, 440);
-
-        dCtx.fillStyle = '#334155';
-        dCtx.font = '12px Inter, sans-serif';
-        dCtx.fillText('SINGLE ORIGIN ACEH GAYO', 300, 490);
-        dCtx.fillText('Netto 250ml - 100% Organik', 300, 520);
-
-        // Kilauan Kaca/Lighting Highlight Botol
-        const highlightGrad = dCtx.createLinearGradient(200, 0, 240, 0);
-        highlightGrad.addColorStop(0, 'rgba(255,255,255,0.4)');
-        highlightGrad.addColorStop(1, 'rgba(255,255,255,0)');
-        dCtx.fillStyle = highlightGrad;
-        dCtx.fillRect(190, 270, 40, 450);
-
-        const img = new Image();
-        img.onload = () => {
-          state.productImg = img;
-          state.productLoaded = true;
-          resetProductTransform();
-          render();
-        };
-        img.src = demoCanvas.toDataURL();
-      }
-
-      document.getElementById('btn-load-demo').addEventListener('click', () => {
-        loadDemoProduct();
-        showToast('Contoh produk berhasil dimuat!');
-      });
-
-      // ================= RASIO KANVAS =================
-      const ratioButtons = document.querySelectorAll('.ratio-btn');
-      const ratioIndicator = document.getElementById('canvas-dim-indicator');
-
-      ratioButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const ratio = btn.getAttribute('data-ratio');
-          setCanvasRatio(ratio);
-          ratioButtons.forEach(b => {
-            b.classList.remove('border-brand-600', 'bg-brand-50', 'text-brand-700', 'border-2');
-            b.classList.add('border-slate-200', 'bg-white');
-          });
-          btn.classList.add('border-brand-600', 'bg-brand-50', 'text-brand-700', 'border-2');
-          btn.classList.remove('border-slate-200', 'bg-white');
-        });
-      });
-
-      function setCanvasRatio(ratio) {
-        state.ratio = ratio;
-        if (ratio === '1:1') {
-          canvas.width = 1080;
-          canvas.height = 1080;
-          ratioIndicator.textContent = '1080 × 1080 px (1:1 Feed Persegi)';
-        } else if (ratio === '4:5') {
-          canvas.width = 1080;
-          canvas.height = 1350;
-          ratioIndicator.textContent = '1080 × 1350 px (4:5 Feed Portrait)';
-        } else if (ratio === '9:16') {
-          canvas.width = 1080;
-          canvas.height = 1920;
-          ratioIndicator.textContent = '1080 × 1920 px (9:16 Story/Reels)';
-        } else if (ratio === '16:9') {
-          canvas.width = 1920;
-          canvas.height = 1080;
-          ratioIndicator.textContent = '1920 × 1080 px (16:9 Banner Promo)';
-        }
-        state.width = canvas.width;
-        state.height = canvas.height;
-        resetProductTransform();
-        render();
-      }
-
-      function resetProductTransform() {
-        state.transform.x = state.width / 2;
-        // Posisikan agak ke tengah bawah sedikit agar proporsional
-        state.transform.y = state.height * 0.52;
-        state.transform.scale = 0.95;
-        state.transform.rotation = 0;
-        state.transform.flipH = 1;
-
-        document.getElementById('scale-slider').value = 95;
-        document.getElementById('scale-val').textContent = '95%';
-        document.getElementById('rotate-slider').value = 0;
-        document.getElementById('rotate-val').textContent = '0°';
-      }
-
-      document.getElementById('btn-reset-transform').addEventListener('click', () => {
-        resetProductTransform();
-        render();
-        showToast('Transformasi produk direset');
-      });
-
-      document.getElementById('btn-center-product').addEventListener('click', () => {
-        state.transform.x = state.width / 2;
-        state.transform.y = state.height * 0.52;
-        render();
-      });
-
-      document.getElementById('btn-flip-h').addEventListener('click', () => {
-        state.transform.flipH = state.transform.flipH === 1 ? -1 : 1;
-        render();
-      });
-
-      // SLIDER KONTROL TRANSFORM
-      const scaleSlider = document.getElementById('scale-slider');
-      scaleSlider.addEventListener('input', (e) => {
-        const val = e.target.value;
-        state.transform.scale = val / 100;
-        document.getElementById('scale-val').textContent = val + '%';
-        render();
-      });
-
-      const rotateSlider = document.getElementById('rotate-slider');
-      rotateSlider.addEventListener('input', (e) => {
-        const val = e.target.value;
-        state.transform.rotation = val * (Math.PI / 180);
-        document.getElementById('rotate-val').textContent = val + '°';
-        render();
-      });
-
-      // ================= STUDIO LIGHTING CONTROLS =================
-      const brightSlider = document.getElementById('bright-slider');
-      const contrastSlider = document.getElementById('contrast-slider');
-      const saturateSlider = document.getElementById('saturate-slider');
-      const warmthSlider = document.getElementById('warmth-slider');
-
-      brightSlider.addEventListener('input', (e) => {
-        state.lighting.brightness = e.target.value;
-        document.getElementById('bright-val').textContent = e.target.value + '%';
-        render();
-      });
-
-      contrastSlider.addEventListener('input', (e) => {
-        state.lighting.contrast = e.target.value;
-        document.getElementById('contrast-val').textContent = e.target.value + '%';
-        render();
-      });
-
-      saturateSlider.addEventListener('input', (e) => {
-        state.lighting.saturate = e.target.value;
-        document.getElementById('saturate-val').textContent = e.target.value + '%';
-        render();
-      });
-
-      warmthSlider.addEventListener('input', (e) => {
-        state.lighting.warmth = parseInt(e.target.value);
-        document.getElementById('warmth-val').textContent = e.target.value;
-        render();
-      });
-
-      document.getElementById('btn-auto-enhance').addEventListener('click', () => {
-        state.lighting.brightness = 108;
-        state.lighting.contrast = 115;
-        state.lighting.saturate = 120;
-        state.lighting.warmth = 6;
-        brightSlider.value = 108;
-        contrastSlider.value = 115;
-        saturateSlider.value = 120;
-        warmthSlider.value = 6;
-        document.getElementById('bright-val').textContent = '108%';
-        document.getElementById('contrast-val').textContent = '115%';
-        document.getElementById('saturate-val').textContent = '120%';
-        document.getElementById('warmth-val').textContent = '6';
-        render();
-        showToast('Auto HD Magic diterapkan!');
-      });
-
-      // ================= LATAR & WARNA STUDIO =================
-      const colorButtons = document.querySelectorAll('.bg-color-btn');
-      colorButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const col = btn.getAttribute('data-color');
-          if (col) {
-            state.bg.color = col;
-            state.bg.texture = 'none';
-            state.bg.customImage = null;
-            colorButtons.forEach(b => b.classList.remove('border-brand-500', 'border-2'));
-            btn.classList.add('border-brand-500', 'border-2');
-            render();
-          }
-        });
-      });
-
-      document.getElementById('bg-color-picker').addEventListener('input', (e) => {
-        state.bg.color = e.target.value;
-        state.bg.texture = 'none';
-        state.bg.customImage = null;
-        render();
-      });
-
-      // GRADIENTS
-      const gradButtons = document.querySelectorAll('.bg-gradient-btn');
-      gradButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.bg.gradientType = btn.getAttribute('data-gradient');
-          gradButtons.forEach(b => b.classList.remove('bg-brand-50', 'text-brand-700', 'border-brand-500'));
-          btn.classList.add('bg-brand-50', 'text-brand-700', 'border-brand-500');
-          render();
-        });
-      });
-
-      // TEKSTUR & CUSTOM BG
-      const textureButtons = document.querySelectorAll('.bg-texture-btn');
-      textureButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.bg.texture = btn.getAttribute('data-texture');
-          state.bg.customImage = null;
-          render();
-        });
-      });
-
-      document.getElementById('bg-custom-input').addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (evt) => {
-            const bgImg = new Image();
-            bgImg.onload = () => {
-              state.bg.customImage = bgImg;
-              state.bg.texture = 'custom';
-              render();
-              showToast('Latar kustom dimuat!');
-            };
-            bgImg.src = evt.target.result;
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      });
-
-      // ================= BAYANGAN & PODIUM =================
-      const shadowToggle = document.getElementById('shadow-toggle');
-      const shadowControls = document.getElementById('shadow-controls');
-
-      shadowToggle.addEventListener('change', (e) => {
-        state.shadow.enabled = e.target.checked;
-        shadowControls.classList.toggle('opacity-40', !e.target.checked);
-        render();
-      });
-
-      document.getElementById('shadow-opacity-slider').addEventListener('input', (e) => {
-        state.shadow.opacity = e.target.value / 100;
-        document.getElementById('shadow-opacity-val').textContent = e.target.value + '%';
-        render();
-      });
-
-      document.getElementById('shadow-offset-slider').addEventListener('input', (e) => {
-        state.shadow.offsetY = parseInt(e.target.value);
-        document.getElementById('shadow-offset-val').textContent = e.target.value + 'px';
-        render();
-      });
-
-      document.getElementById('shadow-blur-slider').addEventListener('input', (e) => {
-        state.shadow.blur = parseInt(e.target.value);
-        document.getElementById('shadow-blur-val').textContent = e.target.value + 'px';
-        render();
-      });
-
-      const podiumToggle = document.getElementById('podium-toggle');
-      podiumToggle.addEventListener('change', (e) => {
-        state.podium.enabled = e.target.checked;
-        render();
-      });
-
-      document.getElementById('podium-shape').addEventListener('change', (e) => {
-        state.podium.shape = e.target.value;
-        render();
-      });
-
-      // ================= BADGE & MARKETING KIT =================
-      const badgeButtons = document.querySelectorAll('.badge-add-btn');
-      badgeButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          const type = btn.getAttribute('data-badge');
-          addBadge(type);
-        });
-      });
-
-      function addBadge(type) {
-        // Cek jika badge sudah ada
-        const exists = state.badges.some(b => b.type === type);
-        if (exists) {
-          showToast('Badge ini sudah ada di gambar!');
-          return;
-        }
-
-        const badgeMeta = {
-          diskon: { text: 'DISKON 50%', bg: '#dc2626', icon: 'fa-percent' },
-          bestseller: { text: 'BEST SELLER', bg: '#d97706', icon: 'fa-crown' },
-          freeongkir: { text: 'GRATIS ONGKIR', bg: '#059669', icon: 'fa-truck-fast' },
-          halal: { text: '100% HALAL', bg: '#0d9488', icon: 'fa-certificate' },
-          lokal: { text: 'BUATAN INDONESIA', bg: '#e11d48', icon: 'fa-flag' },
-          readystock: { text: 'READY STOCK', bg: '#2563eb', icon: 'fa-box-open' },
-        };
-
-        const meta = badgeMeta[type] || { text: 'PROMO', bg: '#dc2626' };
-        state.badges.push({
-          type,
-          text: meta.text,
-          bg: meta.bg,
-          // Letak susun otomatis ke bawah
-          x: 70,
-          y: 80 + (state.badges.length * 68)
-        });
-        render();
-        showToast(`Badge ${meta.text} ditambahkan!`);
-      }
-
-      document.getElementById('btn-clear-badges').addEventListener('click', () => {
-        state.badges = [];
-        render();
-        showToast('Semua badge dihapus');
-      });
-
-      // TEXT OVERLAY BINDINGS
-      const textToggle = document.getElementById('text-overlay-toggle');
-      const textFields = document.getElementById('text-overlay-fields');
-
-      textToggle.addEventListener('change', (e) => {
-        state.textBanner.enabled = e.target.checked;
-        textFields.classList.toggle('opacity-40', !e.target.checked);
-        render();
-      });
-
-      document.getElementById('input-prod-title').addEventListener('input', (e) => {
-        state.textBanner.title = e.target.value;
-        render();
-      });
-      document.getElementById('input-prod-tagline').addEventListener('input', (e) => {
-        state.textBanner.tagline = e.target.value;
-        render();
-      });
-      document.getElementById('input-prod-price').addEventListener('input', (e) => {
-        state.textBanner.price = e.target.value;
-        render();
-      });
-      document.getElementById('input-prod-oldprice').addEventListener('input', (e) => {
-        state.textBanner.oldPrice = e.target.value;
-        render();
-      });
-      document.getElementById('input-prod-contact').addEventListener('input', (e) => {
-        state.textBanner.contact = e.target.value;
-        render();
-      });
-
-      document.getElementById('select-font-family').addEventListener('change', (e) => {
-        state.textBanner.fontFamily = e.target.value;
-        render();
-      });
-
-      const textColorBtns = document.querySelectorAll('.text-color-btn');
-      textColorBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-          state.textBanner.color = btn.getAttribute('data-color');
-          render();
-        });
-      });
-
-      // WATERMARK LOGO
-      const watermarkToggle = document.getElementById('watermark-toggle');
-      const watermarkControls = document.getElementById('watermark-controls');
-      const logoInput = document.getElementById('logo-input');
-      const watermarkPos = document.getElementById('watermark-pos');
-
-      watermarkToggle.addEventListener('change', (e) => {
-        state.watermark.enabled = e.target.checked;
-        watermarkControls.classList.toggle('hidden', !e.target.checked);
-        render();
-      });
-
-      logoInput.addEventListener('change', (e) => {
-        if (e.target.files && e.target.files[0]) {
-          const reader = new FileReader();
-          reader.onload = (evt) => {
-            const lImg = new Image();
-            lImg.onload = () => {
-              state.watermark.img = lImg;
-              render();
-              showToast('Logo watermark siap!');
-            };
-            lImg.src = evt.target.result;
-          };
-          reader.readAsDataURL(e.target.files[0]);
-        }
-      });
-
-      watermarkPos.addEventListener('change', (e) => {
-        state.watermark.position = e.target.value;
-        render();
-      });
-
-      // ================= PRESETS 1-KLIK =================
-      const presetCards = document.querySelectorAll('.preset-card');
-      presetCards.forEach(card => {
-        card.addEventListener('click', () => {
-          const p = card.getAttribute('data-preset');
-          applyPreset(p);
-        });
-      });
-
-      function applyPreset(presetName) {
-        if (presetName === 'marketplace') {
-          state.bg.color = '#ffffff';
-          state.bg.gradientType = 'none';
-          state.bg.texture = 'none';
-          state.shadow.enabled = true;
-          state.shadow.opacity = 0.35;
-          state.shadow.blur = 20;
-          state.lighting.brightness = 104;
-          state.lighting.contrast = 108;
-          state.lighting.warmth = 0;
-          state.podium.enabled = false;
-          state.textBanner.enabled = false;
-          textToggle.checked = false;
-          textFields.classList.add('opacity-40');
-          showToast('Preset Marketplace diterapkan!');
-        } else if (presetName === 'flashsale') {
-          state.bg.color = '#fef2f2';
-          state.bg.gradientType = 'spotlight';
-          state.bg.texture = 'none';
-          state.shadow.enabled = true;
-          state.lighting.brightness = 105;
-          state.lighting.saturate = 125;
-          state.textBanner.enabled = true;
-          state.textBanner.color = '#991b1b';
-          textToggle.checked = true;
-          textFields.classList.remove('opacity-40');
-          state.badges = [
-            { type: 'diskon', text: 'DISKON 50%', bg: '#dc2626', x: 70, y: 80 },
-            { type: 'bestseller', text: 'FLASH SALE', bg: '#ea580c', x: 70, y: 148 }
-          ];
-          showToast('Preset Flash Sale diterapkan!');
-        } else if (presetName === 'luxury') {
-          state.bg.color = '#0a0a0c';
-          state.bg.gradientType = 'spotlight';
-          state.bg.texture = 'none';
-          state.lighting.brightness = 102;
-          state.lighting.contrast = 125;
-          state.lighting.warmth = 10;
-          state.podium.enabled = true;
-          state.podium.shape = 'cylinder';
-          state.podium.color = '#1e293b';
-          state.textBanner.enabled = true;
-          state.textBanner.color = '#ffffff';
-          state.textBanner.fontFamily = 'Playfair Display';
-          textToggle.checked = true;
-          textFields.classList.remove('opacity-40');
-          showToast('Preset Mewah Luxury diterapkan!');
-        } else if (presetName === 'organic') {
-          state.bg.color = '#fbf7ee';
-          state.bg.gradientType = 'none';
-          state.bg.texture = 'wood';
-          state.lighting.brightness = 102;
-          state.lighting.contrast = 110;
-          state.lighting.warmth = 18;
-          state.podium.enabled = false;
-          state.textBanner.enabled = true;
-          state.textBanner.color = '#331800';
-          state.textBanner.fontFamily = 'Poppins';
-          textToggle.checked = true;
-          textFields.classList.remove('opacity-40');
-          showToast('Preset Alami/Food diterapkan!');
-        }
-        render();
-      }
-
-      // ================= CHROMA TOLERANCE & MAGIC ERASE =================
-      const sampleEyedropperBtn = document.getElementById('btn-sample-eyedropper');
-      const toleranceSlider = document.getElementById('tolerance-slider');
-      const btnApplyChroma = document.getElementById('btn-apply-chroma');
-      const btnRestoreOriginal = document.getElementById('btn-restore-original');
-
-      sampleEyedropperBtn.addEventListener('click', () => {
-        state.toolMode = 'eyedropper';
-        canvas.style.cursor = 'crosshair';
-        showToast('Klik warna latar produk di kanvas untuk mengambil sampel warna');
-      });
-
-      toleranceSlider.addEventListener('input', (e) => {
-        state.chromaTolerance = parseInt(e.target.value);
-        document.getElementById('tolerance-val').textContent = e.target.value;
-      });
-
-      // Simpan backup foto asli untuk fitur restore
-      function backupOriginalImage() {
-        if (!state.productImg) return;
-        const temp = document.createElement('canvas');
-        temp.width = state.productImg.width;
-        temp.height = state.productImg.height;
-        const tctx = temp.getContext('2d');
-        tctx.drawImage(state.productImg, 0, 0);
-        state.originalImgData = tctx.getImageData(0, 0, temp.width, temp.height);
-      }
-
-      btnApplyChroma.addEventListener('click', () => {
-        if (!state.chromaTargetColor) {
-          showToast('Pilih warna terlebih dahulu dengan Eyedropper!');
-          return;
-        }
-        applyChromaKeyRemoval();
-      });
-
-      btnRestoreOriginal.addEventListener('click', () => {
-        if (state.originalImgData) {
-          const temp = document.createElement('canvas');
-          temp.width = state.originalImgData.width;
-          temp.height = state.originalImgData.height;
-          const tctx = temp.getContext('2d');
-          tctx.putImageData(state.originalImgData, 0, 0);
-          const restored = new Image();
-          restored.onload = () => {
-            state.productImg = restored;
-            render();
-            showToast('Foto dikembalikan ke semula!');
-          };
-          restored.src = temp.toDataURL();
-        } else {
-          showToast('Foto sudah dalam kondisi asli');
-        }
-      });
-
-      function applyChromaKeyRemoval() {
-        if (!state.productImg) return;
-        backupOriginalImage();
-
-        const pCanvas = document.createElement('canvas');
-        pCanvas.width = state.productImg.width;
-        pCanvas.height = state.productImg.height;
-        const pCtx = pCanvas.getContext('2d');
-        pCtx.drawImage(state.productImg, 0, 0);
-
-        const imgData = pCtx.getImageData(0, 0, pCanvas.width, pCanvas.height);
-        const data = imgData.data;
-        const target = state.chromaTargetColor;
-        const tol = state.chromaTolerance * 3; // multiplier sensitivitas
-
-        for (let i = 0; i < data.length; i += 4) {
-          const r = data[i];
-          const g = data[i + 1];
-          const b = data[i + 2];
-
-          const diff = Math.abs(r - target.r) + Math.abs(g - target.g) + Math.abs(b - target.b);
-          if (diff < tol) {
-            // Hapus piksel (transparan)
-            data[i + 3] = 0;
-          } else if (diff < tol + 15) {
-            // Soft edge feathering
-            data[i + 3] = ((diff - tol) / 15) * 255;
-          }
-        }
-
-        pCtx.putImageData(imgData, 0, 0);
-        const processed = new Image();
-        processed.onload = () => {
-          state.productImg = processed;
-          state.toolMode = 'select';
-          canvas.style.cursor = 'grab';
-          render();
-          showToast('Background warna berhasil dibersihkan!');
-        };
-        processed.src = pCanvas.toDataURL();
-      }
-
-      // TOOLS KUAS MANUAL
-      const btnToolBrushErase = document.getElementById('btn-tool-brush-erase');
-      const btnToolSelect = document.getElementById('btn-tool-select');
-      const brushSizeSlider = document.getElementById('brush-size-slider');
-
-      btnToolBrushErase.addEventListener('click', () => {
-        state.toolMode = 'brush-erase';
-        btnToolBrushErase.classList.add('bg-brand-50', 'border-brand-500');
-        btnToolSelect.classList.remove('bg-brand-50', 'border-brand-500');
-        canvas.style.cursor = 'crosshair';
-        showToast('Kuas penghapus aktif: gosok pada kanvas');
-      });
-
-      btnToolSelect.addEventListener('click', () => {
-        state.toolMode = 'select';
-        btnToolSelect.classList.add('bg-brand-50', 'border-brand-500');
-        btnToolBrushErase.classList.remove('bg-brand-50', 'border-brand-500');
-        canvas.style.cursor = 'grab';
-      });
-
-      brushSizeSlider.addEventListener('input', (e) => {
-        state.brushSize = parseInt(e.target.value);
-        document.getElementById('brush-size-val').textContent = e.target.value + 'px';
-      });
-
-      // ================= KANVAS INTERAKSI (DRAG & ERASER) =================
-      canvas.addEventListener('mousedown', (e) => {
-        const coords = getCanvasCoords(e);
-
-        if (state.toolMode === 'eyedropper') {
-          sampleColorAt(coords.x, coords.y);
-          return;
-        }
-
-        if (state.toolMode === 'brush-erase') {
-          isErasing = true;
-          backupOriginalImage();
-          eraseAtCoords(coords.x, coords.y);
-          return;
-        }
-
-        // Mode Select/Geser
-        isDragging = true;
-        startX = coords.x - state.transform.x;
-        startY = coords.y - state.transform.y;
-        canvas.style.cursor = 'grabbing';
-      });
-
-      canvas.addEventListener('mousemove', (e) => {
-        const coords = getCanvasCoords(e);
-
-        if (isErasing && state.toolMode === 'brush-erase') {
-          eraseAtCoords(coords.x, coords.y);
-          return;
-        }
-
-        if (!isDragging) return;
-        state.transform.x = coords.x - startX;
-        state.transform.y = coords.y - startY;
-        render();
-      });
-
-      window.addEventListener('mouseup', () => {
-        isDragging = false;
-        isErasing = false;
-        if (state.toolMode === 'select') {
-          canvas.style.cursor = 'grab';
-        }
-      });
-
-      // Dukungan Touch untuk HP / Layar Sentuh
-      canvas.addEventListener('touchstart', (e) => {
-        if (e.touches.length === 1) {
-          const touch = e.touches[0];
-          const coords = getCanvasCoords(touch);
-
-          if (state.toolMode === 'eyedropper') {
-            sampleColorAt(coords.x, coords.y);
-            return;
-          }
-
-          if (state.toolMode === 'brush-erase') {
-            isErasing = true;
-            backupOriginalImage();
-            eraseAtCoords(coords.x, coords.y);
-            return;
-          }
-
-          isDragging = true;
-          startX = coords.x - state.transform.x;
-          startY = coords.y - state.transform.y;
-        }
-      }, { passive: false });
-
-      canvas.addEventListener('touchmove', (e) => {
-        if (e.touches.length === 1) {
-          e.preventDefault();
-          const touch = e.touches[0];
-          const coords = getCanvasCoords(touch);
-
-          if (isErasing && state.toolMode === 'brush-erase') {
-            eraseAtCoords(coords.x, coords.y);
-            return;
-          }
-
-          if (!isDragging) return;
-          state.transform.x = coords.x - startX;
-          state.transform.y = coords.y - startY;
-          render();
-        }
-      }, { passive: false });
-
-      window.addEventListener('touchend', () => {
-        isDragging = false;
-        isErasing = false;
-      });
-
-      function getCanvasCoords(e) {
-        const rect = canvas.getBoundingClientRect();
-        const scaleX = canvas.width / rect.width;
-        const scaleY = canvas.height / rect.height;
-        return {
-          x: (e.clientX - rect.left) * scaleX,
-          y: (e.clientY - rect.top) * scaleY
-        };
-      }
-
-      function sampleColorAt(cx, cy) {
-        // Ambil warna piksel dari kanvas
-        const pixel = ctx.getImageData(cx, cy, 1, 1).data;
-        state.chromaTargetColor = { r: pixel[0], g: pixel[1], b: pixel[2] };
-        showToast(`Warna sampel tersimpan (RGB: ${pixel[0]}, ${pixel[1]}, ${pixel[2]})`);
-        state.toolMode = 'select';
-        canvas.style.cursor = 'grab';
-      }
-
-      function eraseAtCoords(cx, cy) {
-        if (!state.productImg) return;
-
-        // Render kuas transparan ke bitmap produk
-        const pCanvas = document.createElement('canvas');
-        pCanvas.width = state.productImg.width;
-        pCanvas.height = state.productImg.height;
-        const pCtx = pCanvas.getContext('2d');
-        pCtx.drawImage(state.productImg, 0, 0);
-
-        // Transformasi koordinat canvas utama ke dalam koordinat gambar lokal
-        const localX = (cx - state.transform.x) / (state.transform.scale * state.transform.flipH) + (state.productImg.width / 2);
-        const localY = (cy - state.transform.y) / state.transform.scale + (state.productImg.height / 2);
-
-        pCtx.globalCompositeOperation = 'destination-out';
-        pCtx.beginPath();
-        pCtx.arc(localX, localY, state.brushSize * 1.5, 0, Math.PI * 2);
-        pCtx.fill();
-
-        const updated = new Image();
-        updated.onload = () => {
-          state.productImg = updated;
-          render();
-        };
-        updated.src = pCanvas.toDataURL();
-      }
-
-      // ================= CORE RENDERING ENGINE =================
-      function render() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // 1. Gambar Background Studio
-        renderBackground();
-
-        // 2. Gambar Podium (jika aktif)
-        if (state.podium.enabled) {
-          renderPodium();
-        }
-
-        // 3. Gambar Bayangan Produk Realistis (Contact Shadow)
-        if (state.shadow.enabled && state.productImg) {
-          renderContactShadow();
-        }
-
-        // 4. Gambar Produk dengan Filter Kamera / Lighting
-        if (state.productImg) {
-          renderProduct();
-        }
-
-        // 5. Gambar Teks Marketing & Promo
-        if (state.textBanner.enabled) {
-          renderTextBanner();
-        }
-
-        // 6. Gambar Badges / Stiker Jualan
-        renderBadges();
-
-        // 7. Watermark Logo Toko
-        if (state.watermark.enabled && state.watermark.img) {
-          renderWatermark();
-        }
-      }
-
-      // 1. BACKGROUND RENDERER
-      function renderBackground() {
-        const w = canvas.width;
-        const h = canvas.height;
-
-        if (state.bg.texture === 'wood') {
-          // Simulasi tekstur kayu studio hangat
-          const woodGrad = ctx.createLinearGradient(0, 0, 0, h);
-          woodGrad.addColorStop(0, '#f5e6d3');
-          woodGrad.addColorStop(1, '#dfc4a1');
-          ctx.fillStyle = woodGrad;
-          ctx.fillRect(0, 0, w, h);
-
-          // Guratan serat kayu halus
-          ctx.fillStyle = 'rgba(160, 115, 65, 0.04)';
-          for (let i = 0; i < h; i += 8) {
-            ctx.fillRect(0, i + Math.sin(i * 0.1) * 3, w, 2);
-          }
-          return;
-        }
-
-        if (state.bg.texture === 'marble') {
-          // Simulasi Marmer Putih Abu Mewah
-          ctx.fillStyle = '#f8fafc';
-          ctx.fillRect(0, 0, w, h);
-          ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
-          ctx.lineWidth = 3;
           ctx.beginPath();
-          ctx.moveTo(0, h * 0.2);
-          ctx.bezierCurveTo(w * 0.3, h * 0.1, w * 0.7, h * 0.4, w, h * 0.3);
-          ctx.bezierCurveTo(w * 0.6, h * 0.7, w * 0.2, h * 0.6, 0, h * 0.9);
-          ctx.stroke();
-          return;
-        }
-
-        if (state.bg.customImage) {
-          // Gambar Custom dari User
-          ctx.drawImage(state.bg.customImage, 0, 0, w, h);
-          return;
-        }
-
-        // Warna Solid & Studio Spotlight Gradients
-        if (state.bg.gradientType === 'spotlight') {
-          const radial = ctx.createRadialGradient(w / 2, h * 0.45, 50, w / 2, h * 0.5, Math.max(w, h) * 0.7);
-          radial.addColorStop(0, lightenDarkenColor(state.bg.color, 45));
-          radial.addColorStop(0.6, state.bg.color);
-          radial.addColorStop(1, lightenDarkenColor(state.bg.color, -35));
-          ctx.fillStyle = radial;
-          ctx.fillRect(0, 0, w, h);
-        } else if (state.bg.gradientType === 'linear') {
-          const linear = ctx.createLinearGradient(0, 0, 0, h);
-          linear.addColorStop(0, lightenDarkenColor(state.bg.color, 25));
-          linear.addColorStop(1, lightenDarkenColor(state.bg.color, -25));
-          ctx.fillStyle = linear;
-          ctx.fillRect(0, 0, w, h);
-        } else {
-          ctx.fillStyle = state.bg.color;
-          ctx.fillRect(0, 0, w, h);
-        }
-      }
-
-      // 2. PODIUM RENDERER
-      function renderPodium() {
-        const px = state.transform.x;
-        const py = state.transform.y + (state.productImg ? (state.productImg.height * state.transform.scale * 0.44) : 200);
-        const podWidth = 420 * state.transform.scale;
-        const podHeight = 70 * state.transform.scale;
-
-        ctx.save();
-        if (state.podium.shape === 'cylinder') {
-          // Bayangan podium dasar
-          ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
-          ctx.beginPath();
-          ctx.ellipse(px, py + podHeight + 10, podWidth * 0.52, podHeight * 0.4, 0, 0, Math.PI * 2);
+          ctx.ellipse(canvas.width / 2, shadowY, shadowRx, shadowRy, 0, 0, Math.PI * 2);
+          ctx.fillStyle = sGrad;
           ctx.fill();
-
-          // Badan Silinder Podium
-          const sideGrad = ctx.createLinearGradient(px - podWidth / 2, 0, px + podWidth / 2, 0);
-          sideGrad.addColorStop(0, lightenDarkenColor(state.podium.color, -25));
-          sideGrad.addColorStop(0.5, lightenDarkenColor(state.podium.color, 15));
-          sideGrad.addColorStop(1, lightenDarkenColor(state.podium.color, -25));
-          ctx.fillStyle = sideGrad;
-          ctx.beginPath();
-          ctx.rect(px - podWidth * 0.5, py, podWidth, podHeight);
-          ctx.fill();
-
-          // Tutup Atas Podium (Elips)
-          ctx.fillStyle = lightenDarkenColor(state.podium.color, 25);
-          ctx.beginPath();
-          ctx.ellipse(px, py, podWidth * 0.5, podHeight * 0.35, 0, 0, Math.PI * 2);
-          ctx.fill();
-
-          // Border Halus Tutup
-          ctx.strokeStyle = 'rgba(255,255,255,0.4)';
-          ctx.lineWidth = 2;
-          ctx.stroke();
-        } else {
-          // Balok Box Kotak
-          ctx.fillStyle = lightenDarkenColor(state.podium.color, -20);
-          ctx.fillRect(px - podWidth * 0.5, py, podWidth, podHeight);
-          ctx.fillStyle = lightenDarkenColor(state.podium.color, 15);
-          ctx.fillRect(px - podWidth * 0.5, py - 20, podWidth, 20);
-        }
-        ctx.restore();
-      }
-
-      // 3. BAYANGAN KONTAK REALISTIS (3D SHADOW)
-      function renderContactShadow() {
-        const img = state.productImg;
-        const scale = state.transform.scale;
-        const w = img.width * scale;
-        const h = img.height * scale;
-
-        ctx.save();
-        ctx.translate(state.transform.x, state.transform.y + (h * 0.48) + state.shadow.offsetY);
-
-        // Gambar Elips Bayangan Lembut Berlapis (Ambient Occlusion + Diffuse)
-        const shadowGrad = ctx.createRadialGradient(0, 0, 10, 0, 0, (w * 0.45));
-        const shadowColor = `rgba(15, 23, 42, ${state.shadow.opacity})`;
-        shadowGrad.addColorStop(0, shadowColor);
-        shadowGrad.addColorStop(0.5, `rgba(15, 23, 42, ${state.shadow.opacity * 0.5})`);
-        shadowGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-        ctx.fillStyle = shadowGrad;
-        ctx.scale(1, 0.22); // Gepengkan menjadi bayangan lantai
-        ctx.beginPath();
-        ctx.arc(0, 0, (w * 0.55) + state.shadow.blur, 0, Math.PI * 2);
-        ctx.fill();
-
-        ctx.restore();
-      }
-
-      // 4. GAMBAR PRODUK + STUDIO LIGHTING FILTER
-      function renderProduct() {
-        const img = state.productImg;
-        const sc = state.transform.scale;
-        const w = img.width * sc;
-        const h = img.height * sc;
-
-        ctx.save();
-        ctx.translate(state.transform.x, state.transform.y);
-        ctx.rotate(state.transform.rotation);
-        ctx.scale(state.transform.flipH, 1);
-
-        // Filter Cahaya & Warna Studio
-        const b = state.lighting.brightness;
-        const c = state.lighting.contrast;
-        const s = state.lighting.saturate;
-        ctx.filter = `brightness(${b}%) contrast(${c}%) saturate(${s}%)`;
-
-        ctx.drawImage(img, -w / 2, -h / 2, w, h);
-
-        // Filter Kehangatan / Warmth Overlay Lembut
-        if (state.lighting.warmth !== 0) {
-          ctx.filter = 'none';
-          ctx.globalCompositeOperation = state.lighting.warmth > 0 ? 'color' : 'color';
-          const warmthAlpha = Math.abs(state.lighting.warmth) / 100 * 0.35;
-          ctx.fillStyle = state.lighting.warmth > 0 ? `rgba(245, 158, 11, ${warmthAlpha})` : `rgba(59, 130, 246, ${warmthAlpha})`;
-          ctx.fillRect(-w / 2, -h / 2, w, h);
-        }
-
-        ctx.restore();
-      }
-
-      // 5. TEKS PROMOSI & HARGA CORET
-      function renderTextBanner() {
-        const tb = state.textBanner;
-        ctx.save();
-
-        const canvasW = canvas.width;
-        const canvasH = canvas.height;
-
-        // Header / Judul Produk di Atas
-        ctx.fillStyle = tb.color;
-        ctx.font = `800 48px "${tb.fontFamily}", sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.fillText(tb.title, canvasW / 2, 95);
-
-        // Tagline / Keunggulan
-        ctx.font = `500 24px "${tb.fontFamily}", sans-serif`;
-        ctx.fillStyle = tb.color === '#ffffff' ? '#cbd5e1' : '#64748b';
-        ctx.fillText(tb.tagline, canvasW / 2, 138);
-
-        // Badge Box Harga di Area Bawah (Floating Pill)
-        const pillWidth = 440;
-        const pillHeight = 76;
-        const pillX = (canvasW - pillWidth) / 2;
-        const pillY = canvasH - 165;
-
-        // Background Pil Harga
-        ctx.fillStyle = '#ffffff';
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
-        ctx.shadowBlur = 25;
-        ctx.shadowOffsetY = 8;
-        ctx.beginPath();
-        ctx.roundRect(pillX, pillY, pillWidth, pillHeight, 38);
-        ctx.fill();
-        ctx.shadowColor = 'transparent';
-
-        // Border pil halus
-        ctx.strokeStyle = '#e2e8f0';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        // Harga Promo Aktif
-        ctx.textAlign = 'left';
-        ctx.fillStyle = '#16a34a'; // Hijau cuan
-        ctx.font = `800 36px "${tb.fontFamily}", sans-serif`;
-        ctx.fillText(tb.price, pillX + 36, pillY + 50);
-
-        // Harga Lama (Coret)
-        if (tb.oldPrice) {
-          ctx.fillStyle = '#94a3b8';
-          ctx.font = `600 22px "${tb.fontFamily}", sans-serif`;
-          const oldPriceX = pillX + 250;
-          ctx.fillText(tb.oldPrice, oldPriceX, pillY + 48);
-
-          // Garis Coret Merah
-          const oldPriceWidth = ctx.measureText(tb.oldPrice).width;
-          ctx.strokeStyle = '#ef4444';
-          ctx.lineWidth = 3;
-          ctx.beginPath();
-          ctx.moveTo(oldPriceX - 4, pillY + 41);
-          ctx.lineTo(oldPriceX + oldPriceWidth + 4, pillY + 41);
-          ctx.stroke();
-        }
-
-        // Baris Kontak WhatsApp & Akun Toko di Footer Kanvas
-        if (tb.contact) {
-          ctx.textAlign = 'center';
-          ctx.font = `600 19px "Plus Jakarta Sans", sans-serif`;
-          ctx.fillStyle = tb.color === '#ffffff' ? '#e2e8f0' : '#334155';
-          ctx.fillText(tb.contact, canvasW / 2, canvasH - 45);
-        }
-
-        ctx.restore();
-      }
-
-      // 6. BADGES MARKETING RENDERER
-      function renderBadges() {
-        if (!state.badges || state.badges.length === 0) return;
-
-        ctx.save();
-        state.badges.forEach((b) => {
-          ctx.font = '800 19px "Montserrat", sans-serif';
-          const textWidth = ctx.measureText(b.text).width;
-          const padX = 24;
-          const bW = textWidth + padX * 2;
-          const bH = 46;
-
-          // Shadow badge
-          ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
-          ctx.shadowBlur = 12;
-          ctx.shadowOffsetY = 4;
-
-          // Background Badge
-          ctx.fillStyle = b.bg;
-          ctx.beginPath();
-          ctx.roundRect(b.x, b.y, bW, bH, 12);
-          ctx.fill();
-
-          ctx.shadowColor = 'transparent';
-
-          // Teks Badge
-          ctx.fillStyle = '#ffffff';
-          ctx.textAlign = 'center';
-          ctx.fillText(b.text, b.x + (bW / 2), b.y + 30);
-        });
-        ctx.restore();
-      }
-
-      // 7. WATERMARK RENDERER
-      function renderWatermark() {
-        const logo = state.watermark.img;
-        if (!logo) return;
-
-        const maxLogoSize = 130;
-        const ratio = logo.width / logo.height;
-        let lw = maxLogoSize;
-        let lh = maxLogoSize / ratio;
-        if (lh > maxLogoSize) {
-          lh = maxLogoSize;
-          lw = maxLogoSize * ratio;
-        }
-
-        const margin = 45;
-        let wx = margin;
-        let wy = margin;
-
-        if (state.watermark.position === 'top-right') {
-          wx = canvas.width - lw - margin;
-          wy = margin;
-        } else if (state.watermark.position === 'bottom-right') {
-          wx = canvas.width - lw - margin;
-          wy = canvas.height - lh - margin - 50;
-        } else if (state.watermark.position === 'center') {
-          wx = (canvas.width - lw) / 2;
-          wy = (canvas.height - lh) / 2;
-        }
-
-        ctx.save();
-        ctx.globalAlpha = state.watermark.position === 'center' ? 0.15 : 0.85;
-        ctx.drawImage(logo, wx, wy, lw, lh);
-        ctx.restore();
-      }
-
-      // HELPER: COLOR MANIPULATION (TINT & SHADE)
-      function lightenDarkenColor(col, amt) {
-        let usePound = false;
-        if (col[0] === '#') {
-          col = col.slice(1);
-          usePound = true;
-        }
-        if (col.length === 3) {
-          col = col.split('').map(c => c + c).join('');
-        }
-        const num = parseInt(col, 16);
-        let r = (num >> 16) + amt;
-        let g = ((num >> 8) & 0x00FF) + amt;
-        let b = (num & 0x0000FF) + amt;
-        r = Math.min(255, Math.max(0, r));
-        g = Math.min(255, Math.max(0, g));
-        b = Math.min(255, Math.max(0, b));
-        return (usePound ? '#' : '') + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
-      }
-
-      // ================= DOWNLOAD & COPY CLIPBOARD =================
-      const btnDownloadHD = document.getElementById('btn-download-hd');
-      const btnCopyClipboard = document.getElementById('btn-copy-clipboard');
-
-      btnDownloadHD.addEventListener('click', () => {
-        // Buat file PNG resolusi penuh
-        const dataUrl = canvas.toDataURL('image/png', 1.0);
-        const link = document.createElement('a');
-        const filename = `Foto-Produk-Pro-${Date.now()}.png`;
-        link.download = filename;
-        link.href = dataUrl;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        showToast('Foto produk kualitas HD siap dipromosikan!');
-      });
-
-      btnCopyClipboard.addEventListener('click', () => {
-        canvas.toBlob((blob) => {
-          if (!blob) {
-            showToast('Gagal menyalin gambar');
-            return;
-          }
-          try {
-            navigator.clipboard.write([
-              new ClipboardItem({ 'image/png': blob })
-            ]).then(() => {
-              showToast('Gambar berhasil disalin ke clipboard!');
-            }).catch(() => {
-              // Fallback download jika clipboard tidak diizinkan browser
-              const link = document.createElement('a');
-              link.download = `Foto-Produk-${Date.now()}.png`;
-              link.href = canvas.toDataURL();
-              link.click();
-              showToast('Izin clipboard terbatas. Foto didownload langsung!');
-            });
-          } catch (err) {
-            showToast('Clipboard otomatis tidak didukung browser ini');
-          }
-        });
-      });
-
-      // TOAST NOTIFIKASI
-      function showToast(msg) {
-        const toast = document.getElementById('toast-msg');
-        const toastText = document.getElementById('toast-text');
-        toastText.textContent = msg;
-        toast.classList.remove('translate-y-16', 'opacity-0');
-        toast.classList.add('translate-y-0', 'opacity-100');
-
-        setTimeout(() => {
-          toast.classList.remove('translate-y-0', 'opacity-100');
-          toast.classList.add('translate-y-16', 'opacity-0');
-        }, 3200);
-      }
-    });
-  </script>
-</body>
-</html>
+          ctx
